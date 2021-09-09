@@ -1,4 +1,4 @@
 https://www.howtogeek.com/howto/16226/complete-guide-to-symbolic-links-symlinks-on-windows-or-linux/
 
 mklink /J "C:\Users\Gokhan Varol\AppData\Roaming\Microsoft\SQL Server Management Studio\18.0\Templates\Sql\_Evan\" "C:\Users\Gokhan Varol\GitHub\Evan\SSMSTemplates\"
-
+mklink /J "C:\Users\gokha\AppData\Roaming\Microsoft\SQL Server Management Studio\18.0\Templates\Sql\_Evan\" "C:\Users\gokha\GitHub\Evan\SSMSTemplates\"
