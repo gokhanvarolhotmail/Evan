@@ -19,7 +19,7 @@ UNION ALL
 FROM( SELECT
           [FQN]
         , CONCAT(
-              CAST(NULL AS VARCHAR(MAX)), 'SELECT ''', MAX([ObjectName]), ''' as [TableName], ''', MAX(CASE WHEN [ColumnId] = 1 THEN [ColumnName] END), ''' as [FirstColumnName], ', MAX(CASE WHEN [ColumnId] = 1 THEN QUOTENAME([ColumnName])END), ' as [Value], '
+              CAST(NULL AS VARCHAR(MAX)), 'SELECT ''', MAX([ObjectName]), ''' as [TableName], ''', MAX(CASE WHEN [ColumnId] = 1 THEN [ColumnName] END), ''' as [FirstColumnName], CAST(', MAX(CASE WHEN [ColumnId] = 1 THEN QUOTENAME([ColumnName])END), ' AS VARCHAR(8000))  as [Value], '
             , MAX(CASE WHEN [ColumnId] = 2 THEN QUOTENAME([ColumnName])END), ' as [Description] FROM ', [FQN]) AS [SQL]
       FROM [#TEMP]
       WHERE [FQN] IN( SELECT [FQN] FROM [#temp2] )
