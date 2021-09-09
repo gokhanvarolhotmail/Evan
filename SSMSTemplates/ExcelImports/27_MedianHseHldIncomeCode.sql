@@ -1,10 +1,10 @@
-DROP TABLE IF EXISTS [IncomeCode]
+DROP TABLE IF EXISTS [MedianHseHldIncomeCode]
 
-SELECT [Income_Code],
-	[Income_Description] as [Description]
-INTO [IncomeCode]
+SELECT [Median_HseHld_Income_Code],
+	[Median_HseHld_Income_Description] as [Description]
+INTO [MedianHseHldIncomeCode]
 FROM (SELECT
-	[Income_Code], [Income_Description]
+	[Median_HseHld_Income_Code], [Median_HseHld_Income_Description]
 FROM (VALUES
 ('1', 'Up to $10,000'),
 ('2', '$10,000 to $14,999'),
@@ -24,12 +24,8 @@ FROM (VALUES
 ('G', '$150,000 to $174,999'),
 ('H', '$175,000 to $199,999'),
 ('I', '$200,000 to $249,999'),
-('J', '$250,000 to $499,999'),
-('K', '$500,000 to $999,999'),
-('L', '$1,000,000 to $1,999,999'),
-('M', '$2,000,000 to $4,999,999'),
-('N', 'Over $5,000,000'))
-vdata ([Income_Code], [Income_Description])) [k]
+('J', '$250,000 or More'))
+vdata ([Median_HseHld_Income_Code], [Median_HseHld_Income_Description])) [k]
 
-CREATE UNIQUE CLUSTERED INDEX [Income_Code] ON [IncomeCode] ([Income_Code])
-CREATE UNIQUE NONCLUSTERED INDEX [Description] ON [IncomeCode] ([Description])
+CREATE UNIQUE CLUSTERED INDEX [Median_HseHld_Income_Code] ON [MedianHseHldIncomeCode] ([Median_HseHld_Income_Code])
+CREATE UNIQUE NONCLUSTERED INDEX [Description] ON [MedianHseHldIncomeCode] ([Description])
