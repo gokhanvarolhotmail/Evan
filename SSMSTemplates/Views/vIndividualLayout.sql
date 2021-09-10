@@ -29,6 +29,15 @@ SELECT
     END AS [ColumnDef]
 FROM [Definition].[IndividualLayout] ;
 GO
-
+SELECT CONCAT('DROP TABLE IF EXISTS [#IndividualLayout]
+GO
+CREATE TABLE [#IndividualLayout]
+(	', STRING_AGG(CONCAT(CAST(NULL AS VARCHAR(MAX)), QUOTENAME([FieldName]), ' ', [ColumnDef]), ',
+	')WITHIN GROUP(ORDER BY [Field #]), '
+)
+GO
+')  AS [SQL]
+FROM [Definition].[vIndividualLayout] ;
+GO
 SELECT *
 FROM [Definition].[vIndividualLayout] ;

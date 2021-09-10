@@ -30,5 +30,16 @@ SELECT
   , [Change Type]
 FROM [Definition].[DemoQIDXrefLayout] ;
 GO
+SELECT CONCAT('DROP TABLE IF EXISTS [#DemoQIDXrefLayout]
+GO
+CREATE TABLE [#DemoQIDXrefLayout]
+(	', STRING_AGG(CONCAT(CAST(NULL AS VARCHAR(MAX)), QUOTENAME([FieldName]), ' ', [ColumnDef]), ',
+	')WITHIN GROUP(ORDER BY [Field #]), '
+)
+GO
+')  AS [SQL]
+FROM [Definition].[vDemoQIDXrefLayout] ;
+GO
+
 SELECT *
 FROM [Definition].[vDemoQIDXrefLayout] ;

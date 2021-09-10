@@ -34,5 +34,15 @@ SELECT
 FROM [Definition].[OpenLien] ;
 GO
 
+SELECT CONCAT('DROP TABLE IF EXISTS [#OpenLien]
+GO
+CREATE TABLE [#OpenLien]
+(	', STRING_AGG(CONCAT(CAST(NULL AS VARCHAR(MAX)), QUOTENAME([FieldName]), ' ', [ColumnDef]), ',
+	')WITHIN GROUP(ORDER BY [Field #]), '
+)
+GO
+')  AS [SQL]
+FROM [Definition].[vOpenLien] ;
+GO
 SELECT *
 FROM [Definition].[vOpenLien] ;
