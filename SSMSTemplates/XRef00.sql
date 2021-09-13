@@ -33,12 +33,15 @@ SELECT TOP( 1000 )
 FROM [dbo].[Quantarium_Houseamp_WA_Select_DemoXref_20210622] ;
 GO
 SELECT
-    ISNULL([v].FieldName, [c].ColumnName) AS ColumnName
-	,c.ColumnName
+    ISNULL([v].[FieldName], [c].[ColumnName]) AS [ColumnName]
+  , [c].[ColumnName]
   , [v].*
-  , REPLACE([Casted], '[Column]', QUOTENAME([c].[ColumnName])) + ',' AS [SQL]
+  , CASE WHEN [v].[FieldName] IS NULL THEN QUOTENAME([c].[ColumnName])
+  WHEN [c].[ColumnName] IS NULL THEN '-- '  + QUOTENAME([v].[FieldName] )
+  ELSE REPLACE([Casted], '[Column]', QUOTENAME([c].[ColumnName]))END + ',' AS [SQL]
 FROM( SELECT * FROM [Metadata].[Columns] AS [c] WHERE [c].[ObjectName] = 'Quantarium_Houseamp_WA_Select_DemoXref_20210622' ) AS [c]
-FULL OUTER JOIN [Definition].[vDemoQIDXrefLayout] AS [v] ON [v].FieldName = [c].ColumnName OR REPLACE([v].FieldName , ' ','_')= REPLACE([c].ColumnName , ' ','_')
+FULL OUTER JOIN [Definition].[vDemoQIDXrefLayout] AS [v] ON [v].[FieldName] = [c].[ColumnName] OR REPLACE([v].[FieldName], ' ', '_') = REPLACE([c].[ColumnName], ' ', '_') OR [c].[ColumnName] = 'Processed Date' AND [v].[FieldName] = 'Process_Date' ;
+
 
 
 SELECT * FROM [Definition].[vDemoQIDXrefLayout] 
