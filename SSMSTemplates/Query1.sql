@@ -1,4 +1,4 @@
-/****** Script for SelectTopNRows command from SSMS  ******/
+
 SELECT TOP (1000) [QId]
       ,[DBUSA_Household_ID]
       ,[DBUSA_Individual_ID]
