@@ -4,10 +4,10 @@ CREATE OR ALTER VIEW [Definition].[vOpenLien]
 AS
 SELECT
     *
-  , CASE WHEN [k].[Data_Format] = 'YYYYMMDD' THEN CONCAT('CAST([Column] AS DATE) AS ', QUOTENAME(REPLACE([k].[Field_Display_Name], ' ', '_')))
-        WHEN [k].[Data_Format] = 'MMDDYYYY' THEN CONCAT('CAST(RIGHT([Column],4) + LEFT([Column],4) AS DATE) AS ', QUOTENAME(REPLACE([k].[Field_Display_Name], ' ', '_')))
-        ELSE CONCAT('CAST([Column] AS ', [k].[ColumnDef], ') AS ', QUOTENAME(REPLACE([k].[Field_Display_Name], ' ', '_')))
-    END AS [Casted]
+  , CAST(CASE WHEN [k].[Data_Format] = 'YYYYMMDD' THEN CONCAT('CAST([Column] AS DATE) AS ', QUOTENAME(REPLACE([k].[Field_Display_Name], ' ', '_')))
+             WHEN [k].[Data_Format] = 'MMDDYYYY' THEN CONCAT('CAST(RIGHT([Column],4) + LEFT([Column],4) AS DATE) AS ', QUOTENAME(REPLACE([k].[Field_Display_Name], ' ', '_')))
+             ELSE CONCAT('CAST([Column] AS ', [k].[ColumnDef], ') AS ', QUOTENAME(REPLACE([k].[Field_Display_Name], ' ', '_')))
+         END AS VARCHAR(MAX)) AS [Casted]
 FROM( SELECT
           [Field] AS [Field #]
         , [Field_Display_Name] AS [FieldName]

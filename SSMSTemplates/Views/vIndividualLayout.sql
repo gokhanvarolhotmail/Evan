@@ -4,7 +4,7 @@ CREATE OR ALTER VIEW [Definition].[vIndividualLayout]
 AS
 SELECT
     *
-  , CONCAT('CAST([Column] AS ', [k].[ColumnDef], ') AS ', QUOTENAME(REPLACE([k].[FieldName], ' ', '_'))) AS [Casted]
+  , CAST(CONCAT('CAST([Column] AS ', [k].[ColumnDef], ') AS ', QUOTENAME(REPLACE([k].[FieldName], ' ', '_'))) AS VARCHAR(MAX)) AS [Casted]
 FROM( SELECT
           [FieldGroup]
         , [Field #]
