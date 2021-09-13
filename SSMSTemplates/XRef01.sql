@@ -19,7 +19,7 @@ CAST([Quantarium_Owner_Name_2_Matched_Ind] AS VARCHAR(4)) AS [Quantarium_Owner_N
 [Quantarium_Demo_QId_2],
 CAST([Quantarium_Internal_PID] AS INT) AS [Quantarium_Internal_PID],
 CAST([FIPS_Code] AS VARCHAR(5)) AS [FIPS_Code],
-[CountyName],
+TRIM('"' FROM [CountyName]) AS [CountyName],
 CAST([Assessors_Parcel_Number] AS VARCHAR(45)) AS [Assessors_Parcel_Number],
 CAST([Quantarium_Standardized_Land_Use_Code] AS VARCHAR(4)) AS [Quantarium_Standardized_Land_Use_Code],
 [UseDesc],
