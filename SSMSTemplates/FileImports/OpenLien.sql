@@ -1,10 +1,14 @@
 USE [Evan] ;
 GO
 DECLARE @TableName NVARCHAR(MAX) = N'Houseamp_WA_OL_Chg_20210913' ;
+
+SET @TableName = N'Quantarium_Houseamp_WA_Select_OpenLien_20210622' ;
+
 DECLARE
     @SQL      NVARCHAR(MAX)
   , @BCP      VARCHAR(4000)
-  , @RowCount BIGINT ;
+  , @RowCount BIGINT
+  , @Return   INT ;
 
 DROP TABLE IF EXISTS [#cols] ;
 
@@ -25,11 +29,14 @@ SELECT @SQL AS [SQL] ;
 
 EXEC( @SQL ) ;
 
-SET @BCP = CONCAT('bcp "[Evan].[dbo].[', @TableName, ']" in "C:\Temp\', @TableName, '\', @TableName, '.txt" -F 2 -c -t \t -S 192.168.1.19 -a 65535 -U gvarol -P C@n@n6132') ;
+SET @BCP = CONCAT('bcp "[Evan].[dbo].[', @TableName, ']" in "C:\Temp\', @TableName, '.txt" -F 2 -c -t \t -S 192.168.1.19 -a 65535 -U gvarol -P C@n@n6132') ;
 
 SELECT @BCP AS [BCP] ;
 
-EXEC [sys].[xp_cmdshell] @BCP ;
+EXEC @Return = [sys].[xp_cmdshell] @BCP ;
+
+IF @Return <> 0
+    THROW 50000, 'Bulk Insert Failed!', 1 ;
 
 SELECT @SQL = CONCAT('DROP TABLE IF EXISTS [dbo].[', @TableName, '_New]
 
@@ -62,5 +69,7 @@ SELECT @SQL AS [SQL] ;
 
 EXEC [sys].[sp_executesql] @SQL, N'@RowCount BIGINT OUTPUT', @RowCount OUTPUT ;
 
-SELECT @RowCount AS [RowCount] ;
+SELECT
+    @TableName AS [TableName]
+  , @RowCount AS [RowCount] ;
 GO
