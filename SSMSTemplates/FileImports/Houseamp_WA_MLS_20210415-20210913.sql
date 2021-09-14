@@ -17,6 +17,8 @@ CREATE TABLE [dbo].[Houseamp_WA_MLS_20210415-20210913](
 )')
 FROM [#cols] ;
 
+SELECT @SQL AS [SQL] ;
+
 EXEC( @SQL ) ;
 GO
 RETURN ;
@@ -49,6 +51,8 @@ BEGIN
 END
 ')
 FROM [#cols] ;
+
+SELECT @SQL AS [SQL] ;
 
 EXEC( @SQL ) ;
 GO
