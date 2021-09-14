@@ -73,3 +73,20 @@ SELECT
     @TableName AS [TableName]
   , @RowCount AS [RowCount] ;
 GO
+
+RETURN ;
+
+SELECT 
+       [Quantarium_Internal_PID]
+     , COUNT(1) AS Cnt
+FROM [dbo].[Quantarium_Houseamp_WA_Select_OpenLien_20210622]
+GROUP BY [Quantarium_Internal_PID]
+HAVING COUNT(1) > 1
+ORDER BY COUNT(1) DESC ;
+
+SELECT COUNT(1)
+FROM [dbo].[Quantarium_Houseamp_WA_Select_OpenLien_20210622]
+WHERE [Quantarium_Internal_PID] = 144947666 ;
+
+SELECT COUNT(1)
+FROM( SELECT DISTINCT * FROM [dbo].[Quantarium_Houseamp_WA_Select_OpenLien_20210622] WHERE [Quantarium_Internal_PID] = 144947666 ) AS [k] ;
