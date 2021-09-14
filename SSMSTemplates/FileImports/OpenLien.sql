@@ -5,6 +5,7 @@ DECLARE
   , @Distinct  BIT           = 1 ;
 
 SET @TableName = N'Quantarium_Houseamp_WA_Select_OpenLien_20210622' ;
+SET @TableName = PARSENAME(@TableName, 1) ;
 
 DECLARE
     @SQL      NVARCHAR(MAX)
@@ -30,44 +31,49 @@ FROM [#cols] ;
 SELECT @SQL AS [SQL] ;
 
 EXEC( @SQL ) ;
-SET @BCP = CONCAT('bcp "[Evan].[dbo].[', @TableName, ']" format nul -c -x -f C:\Evan\OpenLien.xml -t"|" -S 192.168.1.19 gvarol -P C@n@n6132')
+
+SET @BCP = CONCAT('bcp "[Evan].[dbo].[', @TableName, ']" format nul -c -x -f C:\Evan\OpenLien.xml -t"', CHAR(9), '" -S 192.168.1.19 -U gvarol -P C@n@n6132') ;
 
 SELECT @BCP AS [BCP] ;
 
 EXEC @Return = [sys].[xp_cmdshell] @BCP ;
 
+SET @SQL = CONCAT(CAST(NULL AS NVARCHAR(MAX)), 'CREATE OR ALTER VIEW [dbo].[v', @TableName, ']
+AS
+SELECT
+   [DataFile].*
+FROM
+	OPENROWSET(BULK ''C:\Evan\', @TableName, '.txt'',
+	FORMATFILE = ''C:\Evan\OpenLien.xml'',
+	FIRSTROW = 2) AS [DataFile];
+') ;
 
-SET @BCP = CONCAT('bcp "[Evan].[dbo].[', @TableName, ']" in "C:\Temp\', @TableName, '.txt" -F 2 -c -t \t -S 192.168.1.19 -a 65535 -U gvarol -P C@n@n6132') ;
+SELECT @SQL AS [SQL] ;
 
-SELECT @BCP AS [BCP] ;
+EXEC( @SQL ) ;
 
-EXEC @Return = [sys].[xp_cmdshell] @BCP ;
+--SET @BCP = CONCAT('bcp "[Evan].[dbo].[', @TableName, ']" in "C:\Evan\', @TableName, '.txt" -F 2 -c -t \t -S 192.168.1.19 -a 65535 -U gvarol -P C@n@n6132') ;
 
-IF @Return <> 0
-    THROW 50000, 'Bulk Insert Failed!', 1 ;
+--SELECT @BCP AS [BCP] ;
 
-SELECT @SQL = CONCAT('DROP TABLE IF EXISTS [dbo].[', @TableName, '_New]
+--EXEC @Return = [sys].[xp_cmdshell] @BCP ;
+
+--IF @Return <> 0
+--    THROW 50000, 'Bulk Insert Failed!', 1 ;
+SELECT @SQL = CONCAT('DROP TABLE IF EXISTS [dbo].[', @TableName, ']
 
 SELECT', CASE WHEN @Distinct = 1 THEN ' DISTINCT' END, '
 	', STRING_AGG(REPLACE([v].[Casted], '[Column]', QUOTENAME([c].[Field])), ',
 	'), '
-INTO [dbo].[', @TableName, '_New]
+INTO [dbo].[', @TableName, ']
 FROM(
 SELECT
 	', STRING_AGG(CONCAT(CAST(NULL AS VARCHAR(MAX)), 'CASE WHEN TRIM([', [c].[Field], ']) IN ('''',''NULL'') THEN NULL ELSE TRIM([', [c].[Field], ']) END AS [', [c].[Field], ']'), ',
 	')WITHIN GROUP(ORDER BY [c].[FieldNum]), '
-FROM [dbo].[', @TableName, '] )[k]
+FROM [dbo].[v', @TableName, '] )[k]
 
 SET @RowCount = @@ROWCOUNT
 
-IF @RowCount > 0
-BEGIN
-	SET XACT_ABORT ON 
-	BEGIN TRANSACTION
-	DROP TABLE [dbo].[', @TableName, ']
-	EXEC [sp_rename] ''[dbo].[', @TableName, '_New]'',''', @TableName, ''',''object''
-	COMMIT
-END
 CREATE UNIQUE CLUSTERED INDEX [Quantarium_Internal_PID] ON [', @TableName, '] ([Quantarium_Internal_PID]) WITH (DATA_COMPRESSION = ROW)
 ')
 FROM [#cols] AS [c]
