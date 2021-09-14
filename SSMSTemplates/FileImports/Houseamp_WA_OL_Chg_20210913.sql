@@ -2,8 +2,9 @@ USE [Evan] ;
 GO
 DECLARE @TableName NVARCHAR(MAX) = N'Houseamp_WA_OL_Chg_20210913' ;
 DECLARE
-    @SQL NVARCHAR(MAX)
-  , @BCP VARCHAR(4000) ;
+    @SQL      NVARCHAR(MAX)
+  , @BCP      VARCHAR(4000)
+  , @RowCount BIGINT ;
 
 DROP TABLE IF EXISTS [#cols] ;
 
@@ -41,7 +42,10 @@ SELECT
 	', STRING_AGG(CONCAT(CAST(NULL AS VARCHAR(MAX)), 'CASE WHEN TRIM([', [c].[Field], ']) IN ('''',''NULL'') THEN NULL ELSE TRIM([', [c].[Field], ']) END AS [', [c].[Field], ']'), ',
 	')WITHIN GROUP(ORDER BY [c].[FieldNum]), '
 FROM [dbo].[', @TableName, '] )[k]
-IF @@ROWCOUNT > 0
+
+SET @RowCount = @@ROWCOUNT
+
+IF @RowCount > 0
 BEGIN
 	SET XACT_ABORT ON 
 	BEGIN TRANSACTION
@@ -56,5 +60,7 @@ FULL OUTER JOIN [Definition].[vOpenLien] AS [v] ON [v].[Field #] = [c].[FieldNum
 
 SELECT @SQL AS [SQL] ;
 
-EXEC( @SQL ) ;
+EXEC [sys].[sp_executesql] @SQL, N'@RowCount BIGINT OUTPUT', @RowCount OUTPUT ;
+
+SELECT @RowCount AS [RowCount] ;
 GO
