@@ -1,6 +1,8 @@
 USE [Evan] ;
 GO
-DECLARE @TableName NVARCHAR(MAX) = N'Houseamp_WA_OL_Chg_20210913' ;
+DECLARE
+    @TableName NVARCHAR(MAX) = N'Houseamp_WA_OL_Chg_20210913'
+  , @Distinct  BIT           = 1 ;
 
 SET @TableName = N'Quantarium_Houseamp_WA_Select_OpenLien_20210622' ;
 
@@ -40,7 +42,7 @@ IF @Return <> 0
 
 SELECT @SQL = CONCAT('DROP TABLE IF EXISTS [dbo].[', @TableName, '_New]
 
-SELECT
+SELECT', CASE WHEN @Distinct = 1 THEN ' DISTINCT' END, '
 	', STRING_AGG(REPLACE([v].[Casted], '[Column]', QUOTENAME([c].[Field])), ',
 	'), '
 INTO [dbo].[', @TableName, '_New]
@@ -57,7 +59,7 @@ BEGIN
 	SET XACT_ABORT ON 
 	BEGIN TRANSACTION
 	DROP TABLE [dbo].[', @TableName, ']
-	EXEC sp_rename ''[dbo].[', @TableName, '_New]'',''', @TableName, ''',''object''
+	EXEC [sp_rename] ''[dbo].[', @TableName, '_New]'',''', @TableName, ''',''object''
 	COMMIT
 END
 CREATE UNIQUE CLUSTERED INDEX [Quantarium_Internal_PID] ON [', @TableName, '] ([Quantarium_Internal_PID]) WITH (DATA_COMPRESSION = ROW)
@@ -76,9 +78,9 @@ GO
 
 RETURN ;
 
-SELECT 
-       [Quantarium_Internal_PID]
-     , COUNT(1) AS Cnt
+SELECT
+    [Quantarium_Internal_PID]
+  , COUNT(1) AS [Cnt]
 FROM [dbo].[Quantarium_Houseamp_WA_Select_OpenLien_20210622]
 GROUP BY [Quantarium_Internal_PID]
 HAVING COUNT(1) > 1
