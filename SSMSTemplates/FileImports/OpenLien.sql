@@ -30,6 +30,12 @@ FROM [#cols] ;
 SELECT @SQL AS [SQL] ;
 
 EXEC( @SQL ) ;
+SET @BCP = CONCAT('bcp "[Evan].[dbo].[', @TableName, ']" format nul -c -x -f C:\Evan\OpenLien.xml -t"|" -S 192.168.1.19 gvarol -P C@n@n6132')
+
+SELECT @BCP AS [BCP] ;
+
+EXEC @Return = [sys].[xp_cmdshell] @BCP ;
+
 
 SET @BCP = CONCAT('bcp "[Evan].[dbo].[', @TableName, ']" in "C:\Temp\', @TableName, '.txt" -F 2 -c -t \t -S 192.168.1.19 -a 65535 -U gvarol -P C@n@n6132') ;
 
