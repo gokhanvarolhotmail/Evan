@@ -34,9 +34,10 @@ SELECT
   , [t].[Column]
   , [t].[ColumnDef]
   , [t].[DefMaxLength]
-  , [t].[Rows]
-  , [t].[Profiled%]
-
+  --, [t].[Rows]
+  --, [t].[Profiled%]
+  , [t].[AvgLength]
+  , [t].[MaxLength]
   , [t].[IsNull%]
   , [t].[Blank%]
   , [t].[Num+Null+Blank%]
@@ -45,8 +46,8 @@ SELECT
   , [t].[YNTF+Null+Blank%]
 
   , [t].[IsNull]
-  , [t].[AvgLength]
-  , [t].[MaxLength]
+  
+  
   , [t].[Blank]
   , [t].[DblSpc]
   , [t].[LSpc]
