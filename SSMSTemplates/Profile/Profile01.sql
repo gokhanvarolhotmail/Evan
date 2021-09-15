@@ -36,6 +36,14 @@ SELECT
   , [t].[DefMaxLength]
   , [t].[Rows]
   , [t].[Profiled%]
+
+  , [t].[IsNull%]
+  , [t].[Blank%]
+  , [t].[Num+Null+Blank%]
+  , [t].[Int+Null+Blank%]
+  , [t].[Date+Null+Blank%]
+  , [t].[YNTF+Null+Blank%]
+
   , [t].[IsNull]
   , [t].[AvgLength]
   , [t].[MaxLength]
@@ -48,9 +56,9 @@ SELECT
   , [t].[IsNumeric]
   , [t].[IsInt]
   , [t].[IsDate]
-  , [t].[IsNull%]
+  
   , [t].[Distinct%]
-  , [t].[Blank%]
+  
   , [t].[DblSpc%]
   , [t].[LSpc%]
   , [t].[Tab/NL%]
@@ -59,10 +67,8 @@ SELECT
   , [t].[IsNumeric%]
   , [t].[IsInt%]
   , [t].[IsDate%]
-  , [t].[Num+Null+Blank%]
-  , [t].[Int+Null+Blank%]
-  , [t].[Date+Null+Blank%]
-  , [t].[YNTF+Null+Blank%]
+  
+  
   , [t].[Num+Null+Blank]
   , [t].[Int+Null+Blank]
   , [t].[Date+Null+Blank]
