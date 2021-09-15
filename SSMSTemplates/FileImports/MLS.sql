@@ -2,8 +2,8 @@ USE [Evan] ;
 GO
 DECLARE
     @TableName NVARCHAR(MAX) = N'Houseamp_WA_MLS_20210415-20210913'
-  , @Distinct  BIT           = 0 ;
-
+  , @Distinct  BIT           = 0
+  , @Top       BIGINT        = 5000 ;
 
 SET @TableName = PARSENAME(@TableName, 1) ;
 
@@ -67,14 +67,14 @@ SELECT', CASE WHEN @Distinct = 1 THEN ' DISTINCT' END, '
 	'), '
 INTO [dbo].[', @TableName, ']
 FROM(
-SELECT
+SELECT', CASE WHEN @Top > 0 THEN CONCAT(' TOP(', @Top, ')')END, '
 	', STRING_AGG(CONCAT(CAST(NULL AS VARCHAR(MAX)), 'CASE WHEN TRIM([', [c].[Field], ']) IN ('''',''NULL'') THEN NULL ELSE TRIM([', [c].[Field], ']) END AS [', [c].[Field], ']'), ',
 	')WITHIN GROUP(ORDER BY [c].[FieldNum]), '
 FROM [dbo].[v', @TableName, '] )[k]
 
 SET @RowCount = @@ROWCOUNT
 
-CREATE UNIQUE CLUSTERED INDEX [Quantarium_Internal_PID] ON [', @TableName, '] ([Quantarium_Internal_PID]) WITH (DATA_COMPRESSION = ROW)
+CREATE UNIQUE CLUSTERED INDEX [RECORD_ID] ON [', @TableName, '] ([RECORD_ID]) WITH (DATA_COMPRESSION = ROW)
 ')
 FROM [#cols] AS [c]
 FULL OUTER JOIN [Definition].[vMLS] AS [v] ON [v].[Field #] = [c].[FieldNum] ;
