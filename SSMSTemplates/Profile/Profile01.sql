@@ -79,7 +79,7 @@ SELECT
   , [t].[YNTF_SQL]
 FROM [tempdb].[dbo].[Profile] [t] WITH( NOLOCK )
 WHERE [Tracker] = 'gvarol_62_389E24C5'
-  AND  ([t].[Num+Null+Blank%] = 100 OR  [t].[Int+Null+Blank%] = 100 OR [t].[Date+Null+Blank] = 100)
+  AND  ([t].[Num+Null+Blank%] = 100 OR [t].[Int+Null+Blank%] = 100 OR [t].[Date+Null+Blank] = 100 OR [t].[YNTF+Null+Blank] = 100)
   AND columndef LIKE '%char%'
 
 
