@@ -4,7 +4,7 @@ DECLARE
     @TableName NVARCHAR(MAX) = N'Houseamp_WA_OL_Chg_20210913'
   , @Distinct  BIT           = 1 ;
 
---SET @TableName = N'Quantarium_Houseamp_WA_Select_OpenLien_20210622' ;
+SET @TableName = N'Quantarium_Houseamp_WA_Select_OpenLien_20210622' ;
 SET @TableName = PARSENAME(@TableName, 1) ;
 
 DECLARE
