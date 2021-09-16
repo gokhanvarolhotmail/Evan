@@ -1,6 +1,7 @@
 USE [Evan] ;
 GO
-CREATE OR ALTER VIEW [Definition].[vDemoQIDXrefLayout]
+
+CREATE OR ALTER VIEW [Definition].[vDemoQIDXref]
 AS
 SELECT
     *
@@ -33,18 +34,18 @@ FROM( SELECT
         , [Field Notes]
         , [Version]
         , [Change Type]
-      FROM [Definition].[DemoQIDXrefLayout] ) AS [k] ;
+      FROM [Definition].[DemoQIDXref] ) AS [k] ;
 GO
-SELECT CONCAT('DROP TABLE IF EXISTS [#DemoQIDXrefLayout]
+SELECT CONCAT('DROP TABLE IF EXISTS [#DemoQIDXref]
 GO
-CREATE TABLE [#DemoQIDXrefLayout]
+CREATE TABLE [#DemoQIDXref]
 (	', STRING_AGG(CONCAT(CAST(NULL AS VARCHAR(MAX)), QUOTENAME([FieldName]), ' ', [ColumnDef]), ',
 	')WITHIN GROUP(ORDER BY [Field #]), '
 )
 GO
 ')  AS [SQL]
-FROM [Definition].[vDemoQIDXrefLayout] ;
+FROM [Definition].[vDemoQIDXref] ;
 GO
 
 SELECT *
-FROM [Definition].[vDemoQIDXrefLayout] ;
+FROM [Definition].[vDemoQIDXref] ;

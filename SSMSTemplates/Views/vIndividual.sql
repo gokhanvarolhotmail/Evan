@@ -1,6 +1,6 @@
 USE [Evan] ;
 GO
-CREATE OR ALTER VIEW [Definition].[vIndividualLayout]
+CREATE OR ALTER VIEW [Definition].[vIndividual]
 AS
 SELECT
     *
@@ -33,17 +33,18 @@ FROM( SELECT
               WHEN [Data Type] = 'DATE' THEN 'DATE'
               ELSE [Data Type]
           END AS [ColumnDef]
-      FROM [Definition].[IndividualLayout] ) AS [k] ;
+      FROM [Definition].[Individual] ) AS [k] ;
 GO
-SELECT CONCAT('DROP TABLE IF EXISTS [#IndividualLayout]
+SELECT CONCAT('DROP TABLE IF EXISTS [#Individual]
 GO
-CREATE TABLE [#IndividualLayout]
+CREATE TABLE [#Individual]
 (	', STRING_AGG(CONCAT(CAST(NULL AS VARCHAR(MAX)), QUOTENAME([FieldName]), ' ', [ColumnDef]), ',
 	')WITHIN GROUP(ORDER BY [Field #]), '
 )
 GO
 ')  AS [SQL]
-FROM [Definition].[vIndividualLayout] ;
+FROM [Definition].[vIndividual] ;
 GO
 SELECT *
-FROM [Definition].[vIndividualLayout] ;
+FROM [Definition].[vIndividual] ;
+
