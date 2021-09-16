@@ -4,12 +4,14 @@ CREATE OR ALTER VIEW [Definition].[vIndividual]
 AS
 SELECT
     *
-  , CAST(CASE WHEN [k].[Data_Type] = 'DATE' THEN CONCAT('CAST(NULLIF([Column], ''0'') AS ', [k].[ColumnDef], ') AS ', QUOTENAME(REPLACE([k].[FieldName], ' ', '_')))
+  , CAST(CASE WHEN [k].[Data_Type] = 'DATE' THEN
+                  CONCAT('CAST(NULLIF([Column], ''0'') AS ', [k].[ColumnDef], ') AS ', QUOTENAME(REPLACE([k].[FieldName], ' ', '_')))
              ELSE CONCAT('CAST([Column] AS ', [k].[ColumnDef], ') AS ', QUOTENAME(REPLACE([k].[FieldName], ' ', '_')))
          END AS VARCHAR(MAX)) AS [Casted]
 FROM( SELECT
           [FieldGroup]
         , [Field #]
+        , [ColumnName]
         , [Field Name] AS [FieldName]
         , [Length] AS [Max_Length]
         , [Data Type] AS [Data_Type]
@@ -47,4 +49,3 @@ FROM [Definition].[vIndividual] ;
 GO
 SELECT *
 FROM [Definition].[vIndividual] ;
-
