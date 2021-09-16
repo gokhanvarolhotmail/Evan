@@ -1,8 +1,9 @@
 USE [Evan] ;
 GO
 DECLARE
-    @TableName NVARCHAR(MAX) = N'Quantarium_Houseamp_WA_Select_DemoXref_20210622'
-  , @Distinct  BIT           = 1 ;
+    @TableName        NVARCHAR(MAX) = N'Quantarium_Houseamp_WA_Select_DemoXref_20210622'
+  , @Distinct         BIT           = 1
+  , @CreateFormatFile BIT           = 1 ;
 
 SET @TableName = PARSENAME(@TableName, 1) ;
 
@@ -12,29 +13,33 @@ DECLARE
   , @RowCount BIGINT
   , @Return   INT ;
 
-DROP TABLE IF EXISTS [#cols] ;
+IF @CreateFormatFile = 1
+    BEGIN
+        DROP TABLE IF EXISTS [#cols] ;
 
-SELECT *
-INTO [#cols]
-FROM [Util].[dbo].ParseDelimited(
-         'Location_ID	Household_ID_Owner_1	Individual_ID_Owner_1	Age_Owner_1	Ethnic_Code_Owner_1	Gender_Owner_1	Quantarium_Owner_Name_1_Matched_Ind	Quantarium_Demo_QId_1	Household_ID_Owner_2	Individual_ID_Owner_2	Age_Owner_2	Ethnic_Code_Owner_2	Gender_Owner_2	Quantarium_Owner_Name_2_Matched_Ind	Quantarium_Demo_QId_2	Quantarium_Internal_PID	FIPS_Code	CountyName	Assessors_Parcel_Number	Quantarium_Standardized_Land_Use_Code	UseDesc	Quantarium_Res_/_NonRes	Quantarium_Owner_Occupied	Quantarium_Address_Matched_Ind	Quantarium_Number_Of_Owners_On_Asmt	Quantarium_Number_Of_Owners_On_Demo	Start_Date	CrossRefQId	Processed Date' , '	') ;
+        SELECT *
+        INTO [#cols]
+        FROM [Util].[dbo].ParseDelimited(
+                 'Location_ID	Household_ID_Owner_1	Individual_ID_Owner_1	Age_Owner_1	Ethnic_Code_Owner_1	Gender_Owner_1	Quantarium_Owner_Name_1_Matched_Ind	Quantarium_Demo_QId_1	Household_ID_Owner_2	Individual_ID_Owner_2	Age_Owner_2	Ethnic_Code_Owner_2	Gender_Owner_2	Quantarium_Owner_Name_2_Matched_Ind	Quantarium_Demo_QId_2	Quantarium_Internal_PID	FIPS_Code	CountyName	Assessors_Parcel_Number	Quantarium_Standardized_Land_Use_Code	UseDesc	Quantarium_Res_/_NonRes	Quantarium_Owner_Occupied	Quantarium_Address_Matched_Ind	Quantarium_Number_Of_Owners_On_Asmt	Quantarium_Number_Of_Owners_On_Demo	Start_Date	CrossRefQId	Processed_Date'
+               , '	') ;
 
-SELECT @SQL = CONCAT('DROP TABLE IF EXISTS [dbo].[', @TableName, ']
+        SELECT @SQL = CONCAT('DROP TABLE IF EXISTS [dbo].[', @TableName, ']
 CREATE TABLE [dbo].[', @TableName, '](
 	', STRING_AGG(CONCAT(CAST(QUOTENAME([Field]) AS VARCHAR(MAX)), ' VARCHAR(4000)'), ',
 	')WITHIN GROUP(ORDER BY [FieldNum]), '
 )')
-FROM [#cols] ;
+        FROM [#cols] ;
 
-SELECT @SQL AS [SQL] ;
+        SELECT @SQL AS [SQL] ;
 
-EXEC( @SQL ) ;
+        EXEC( @SQL ) ;
 
-SET @BCP = CONCAT('bcp "[Evan].[dbo].[', @TableName, ']" format nul -c -x -f C:\Evan\DemoQIDXref.xml -t"', CHAR(9), '" -S 192.168.1.19 -U gvarol -P C@n@n6132') ;
+        SET @BCP = CONCAT('bcp "[Evan].[dbo].[', @TableName, ']" format nul -c -x -f C:\Evan\DemoQIDXref.xml -t"', CHAR(9), '" -S 192.168.1.19 -U gvarol -P C@n@n6132') ;
 
-SELECT @BCP AS [BCP] ;
+        SELECT @BCP AS [BCP] ;
 
-EXEC @Return = [sys].[xp_cmdshell] @BCP ;
+        EXEC @Return = [sys].[xp_cmdshell] @BCP ;
+    END ;
 
 SET @SQL = CONCAT(CAST(NULL AS NVARCHAR(MAX)), 'CREATE OR ALTER VIEW [dbo].[v', @TableName, ']
 AS
@@ -88,8 +93,8 @@ GO
 
 RETURN ;
 
+SELECT *
+FROM [#cols] ;
 
-
-
-SELECT *FROM [#cols]
-SELECT *FROM [Definition].[vDemoQIDXref]
+SELECT *
+FROM [Definition].[vDemoQIDXref] ;
