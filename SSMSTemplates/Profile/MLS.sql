@@ -2,11 +2,12 @@ USE Evan
 GO
 --CREATE SCHEMA [Profile]
 RETURN
+
 --DROP TABLE [tempdb].[dbo].[Profile] 
 SELECT CONCAT('SELECT ',STRING_AGG(CONCAT(CAST(NULL AS VARCHAR(MAX)), QUOTENAME(REPLACE(name,'''',''''''))),', ') WITHIN GROUP(ORDER BY NAME), ' FROM [dbo].[Houseamp_WA_MLS_20210415-20210913]') FROM sys.[dm_exec_describe_first_result_set]('SELECT * FROM [dbo].[Houseamp_WA_MLS_20210415-20210913]',NULL,NULL)
 WHERE collation_name <> ''
 GO
-DROP TABLE IF EXISTS [tempdb].[dbo].[Profile] 
+--DROP TABLE IF EXISTS [tempdb].[dbo].[Profile]
 EXEC [dbo].[sp_AdvancedProfile]
     @ObjectName = NULL
   , @IncludeObjectLikeCommaDelimited = NULL
@@ -31,6 +32,7 @@ EXEC [dbo].[sp_AdvancedProfile]
 
 -- CREATE TABLE [tempdb].[dbo].[Profile]
 -- COPY ME TO BROWSE RESULTS
+-- DROP TABLE IF EXISTS [Profile].[MLS]
 SELECT
    [t].[ObjectFQN]
   , [t].[Column]
@@ -86,7 +88,7 @@ SELECT
   , [t].[IsInt_SQL]
   , [t].[IsDate_SQL]
   , [t].[YNTF_SQL]
-  INTO [Profile].[Houseamp_WA_MLS_20210415-20210913]
+  INTO [Profile].[MLS]
 FROM [tempdb].[dbo].[Profile] [t] WITH( NOLOCK )
 WHERE  ([t].[Num+Null+Blank%] = 100 OR [t].[Int+Null+Blank%] = 100 OR [t].[Date+Null+Blank] = 100 OR [t].[YNTF+Null+Blank] = 100)
   AND columndef LIKE '%char%'
