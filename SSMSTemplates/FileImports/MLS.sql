@@ -217,7 +217,9 @@ FROM [dbo].[v', @TableName, '] )[k]
 
 SET @RowCount = @@ROWCOUNT
 
-CREATE UNIQUE CLUSTERED INDEX [RECORD_ID] ON [', @TableName, '] ([RECORD_ID]) WITH (DATA_COMPRESSION = ROW)
+CREATE CLUSTERED COLUMNSTORE INDEX [CCI] ON [dbo].[', @TableName, ']
+
+CREATE UNIQUE NONCLUSTERED INDEX [RECORD_ID] ON [dbo].[', @TableName, '] ([RECORD_ID]) WITH (DATA_COMPRESSION = ROW)
 ')
 FROM [#cols] AS [c]
 FULL OUTER JOIN [Definition].[vMLS] AS [v] ON [v].[Field #] = [c].[FieldNum] ;

@@ -4,7 +4,7 @@ DECLARE
     @TableName NVARCHAR(MAX) = N'Houseamp_WA_OL_Chg_20210913'
   , @Distinct  BIT           = 1 ;
 
-SET @TableName = N'Quantarium_Houseamp_WA_Select_OpenLien_20210622' ;
+--SET @TableName = N'Quantarium_Houseamp_WA_Select_OpenLien_20210622' ;
 SET @TableName = PARSENAME(@TableName, 1) ;
 
 DECLARE
@@ -74,7 +74,9 @@ FROM [dbo].[v', @TableName, '] )[k]
 
 SET @RowCount = @@ROWCOUNT
 
-CREATE UNIQUE CLUSTERED INDEX [Quantarium_Internal_PID] ON [', @TableName, '] ([Quantarium_Internal_PID]) WITH (DATA_COMPRESSION = ROW)
+CREATE CLUSTERED COLUMNSTORE INDEX [CCI] ON [dbo].[', @TableName, ']
+
+CREATE UNIQUE NONCLUSTERED INDEX [Quantarium_Internal_PID] ON [', @TableName, '] ([Quantarium_Internal_PID]) WITH (DATA_COMPRESSION = ROW)
 ')
 FROM [#cols] AS [c]
 FULL OUTER JOIN [Definition].[vOpenLien] AS [v] ON [v].[Field #] = [c].[FieldNum] ;

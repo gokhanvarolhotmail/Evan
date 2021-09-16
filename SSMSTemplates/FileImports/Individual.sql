@@ -72,7 +72,9 @@ FROM [dbo].[v', @TableName, '] )[k]
 
 SET @RowCount = @@ROWCOUNT
 
-CREATE UNIQUE CLUSTERED INDEX [QId] ON [', @TableName, '] ([QId]) WITH (DATA_COMPRESSION = ROW)
+CREATE CLUSTERED COLUMNSTORE INDEX [CCI] ON [dbo].[', @TableName, ']
+
+CREATE UNIQUE NONCLUSTERED INDEX [QId] ON [', @TableName, '] ([QId]) WITH (DATA_COMPRESSION = ROW)
 ')
 FROM [#cols] AS [c]
 FULL OUTER JOIN [Definition].[vIndividual] AS [v] ON [v].[Field #] = [c].[FieldNum] ;

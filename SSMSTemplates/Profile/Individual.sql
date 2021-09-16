@@ -94,3 +94,14 @@ WHERE  ([t].[Num+Null+Blank%] = 100 OR [t].[Int+Null+Blank%] = 100 OR [t].[Date+
   AND columndef LIKE '%char%'
 
 
+  
+go
+;WITH a AS (
+SELECT CASE WHEN [t].[Date+Null+Blank%] = 100 THEN 'DATE' WHEN [t].[YNTF+Null+Blank%] = 100 THEN 'BIT' WHEN [t].[Date+Null+Blank%] = 100 THEN 'BIGINT'
+WHEN [t].[Num+Null+Blank%] = 100 THEN 'REAL'
+END AS NewDataType,*
+FROM [Profile].[Individual]  t
+)
+UPDATE d SET d.[Data Type]= NewDataType
+FROM definition.[Individual] d INNER JOIN a ON a.[Column] = d.[Field Name]
+
