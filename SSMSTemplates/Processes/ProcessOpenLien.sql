@@ -115,3 +115,20 @@ IF @Type = 'OpenLien'
     SELECT *
     FROM [dbo].[OpenLien_Diff]
     OPTION( RECOMPILE ) ;
+ELSE IF @Type = 'MLS'
+         BEGIN
+             SELECT
+                 @getdate AS [DateAdded]
+               , @BatchId AS [BatchId]
+               , @ArchiveReason AS [ArchiveReason]
+               , [m].*
+             INTO [dbo].[MLS_Archive]
+             FROM [dbo].[MLS] AS [m]
+             WHERE [m].[in_status] = 'A' AND EXISTS ( SELECT 1 FROM [dbo].[OpenLien_DiffKeys] AS [d] WHERE [d].[Quantarium_Internal_PID] = [m].[PRD_Property_ID] )
+             OPTION( RECOMPILE ) ;
+
+             DELETE [m]
+             FROM [dbo].[MLS] AS [m]
+             WHERE [m].[in_status] = 'A' AND EXISTS ( SELECT 1 FROM [dbo].[OpenLien_DiffKeys] AS [d] WHERE [d].[Quantarium_Internal_PID] = [m].[PRD_Property_ID] )
+             OPTION( RECOMPILE ) ;
+         END ;
