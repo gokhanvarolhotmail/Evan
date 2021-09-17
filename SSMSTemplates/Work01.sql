@@ -11,7 +11,7 @@ LEFT JOIN [dbo].[Quantarium_Houseamp_WA_Select_DemoInd_20210622] AS [d2] ON [d2]
                                                                         AND [d2].[Individual_ID] = [d].[Individual_ID_Owner_2] ;
 
 
-SELECT TOP 100 * FROM [dbo].[Quantarium_Houseamp_WA_Select_DemoXref]  b 
+SELECT TOP 100 * FROM [dbo].[Quantarium_Houseamp_WA_Select_DemoXref]  b
 
 
 SELECT * FROM metadata.columns WHERE columnname IN('Latitude','Longitude')

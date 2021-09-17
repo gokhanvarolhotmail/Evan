@@ -4,8 +4,8 @@ INTO #temp
 FROM (VALUES
 ('Blank', ''),
 ('V', 'Voter - No Party'),
-('R', 'Voter – Republican'),
-('D', 'Voter – Democratic'),
+('R', 'Voter ï¿½ Republican'),
+('D', 'Voter ï¿½ Democratic'),
 ('I', 'Voter - Independent'))
 vdata ([Political_Party_Individual], [Description])
 

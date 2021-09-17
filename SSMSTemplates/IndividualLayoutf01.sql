@@ -2,7 +2,7 @@ USE [Evan] ;
 GO
 DROP TABLE IF EXISTS dbo.[Quantarium_Houseamp_WA_Select_DemoInd]
 
-SELECT 
+SELECT
 CAST([QId] AS BIGINT) AS [QId],
 CAST([DBUSA_Household_ID] AS BIGINT) AS [Household_ID],
 CAST([DBUSA_Individual_ID] AS BIGINT) AS [Individual_ID],

@@ -15,5 +15,3 @@ vdata ([NetWorth_Code], [NetWorth_Description])) [k]
 
 CREATE UNIQUE CLUSTERED INDEX [NetWorth_Code] ON [NetWorthCode] ([NetWorth_Code])
 CREATE UNIQUE NONCLUSTERED INDEX [Description] ON [NetWorthCode] ([Description])
-
-

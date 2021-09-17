@@ -1,4 +1,3 @@
-
 SELECT
 	[FieldNo], [FieldName], UPPER([data_type] ) AS DataType, CASE WHEN [data_type] LIKE '%char' THEN CONCAT('VARCHAR(',[MaxLen],')') ELSE UPPER([data_type]) END AS ColumnDef, CAST(NULLIF([MaxLen],'') AS SMALLINT) AS [MaxLen], CAST(NULLIF([Numbers],'') AS SMALLINT) AS [Numbers]
 	INTO [Definition].[MLS]

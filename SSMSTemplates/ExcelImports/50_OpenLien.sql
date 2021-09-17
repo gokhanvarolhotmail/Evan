@@ -1,4 +1,4 @@
-﻿SELECT
+SELECT
 	CAST([t].[Field] AS int) as [Field],
 	CAST([t].[Data_Category] AS nvarchar(50)) as [Data_Category],
 	CAST([t].[Field_Display_Name] AS nvarchar(100)) as [Field_Display_Name],

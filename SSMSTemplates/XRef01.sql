@@ -1,7 +1,7 @@
 USE [Evan] ;
 GO
 DROP TABLE IF EXISTS [dbo].[Quantarium_Houseamp_WA_Select_DemoXref]
-SELECT 
+SELECT
 CAST([Location_ID] AS BIGINT) AS [Location_ID],
 CAST([Household_ID_Owner_1] AS BIGINT) AS [Household_ID_Owner_1],
 CAST([Individual_ID_Owner_1] AS BIGINT) AS [Individual_ID_Owner_1],

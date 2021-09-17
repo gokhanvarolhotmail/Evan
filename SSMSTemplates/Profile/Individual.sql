@@ -3,7 +3,7 @@ GO
 --CREATE SCHEMA [Profile]
 RETURN
 
---DROP TABLE [tempdb].[dbo].[Profile] 
+--DROP TABLE [tempdb].[dbo].[Profile]
 SELECT CONCAT('SELECT ',STRING_AGG(CONCAT(CAST(NULL AS VARCHAR(MAX)), QUOTENAME(REPLACE(name,'''',''''''))),', ') WITHIN GROUP(ORDER BY NAME), ' FROM [dbo].[Quantarium_Houseamp_WA_Select_DemoInd_20210622]') FROM sys.[dm_exec_describe_first_result_set]('SELECT * FROM [dbo].[Quantarium_Houseamp_WA_Select_DemoInd_20210622]',NULL,NULL)
 WHERE collation_name <> ''
 GO
@@ -50,8 +50,8 @@ SELECT
   , [t].[YNTF+Null+Blank%]
 
   , [t].[IsNull]
-  
-  
+
+
   , [t].[Blank]
   , [t].[DblSpc]
   , [t].[LSpc]
@@ -61,9 +61,9 @@ SELECT
   , [t].[IsNumeric]
   , [t].[IsInt]
   , [t].[IsDate]
-  
+
   , [t].[Distinct%]
-  
+
   , [t].[DblSpc%]
   , [t].[LSpc%]
   , [t].[Tab/NL%]
@@ -72,8 +72,8 @@ SELECT
   , [t].[IsNumeric%]
   , [t].[IsInt%]
   , [t].[IsDate%]
-  
-  
+
+
   , [t].[Num+Null+Blank]
   , [t].[Int+Null+Blank]
   , [t].[Date+Null+Blank]
@@ -94,7 +94,7 @@ WHERE  ([t].[Num+Null+Blank%] = 100 OR [t].[Int+Null+Blank%] = 100 OR [t].[Date+
   AND columndef LIKE '%char%'
 
 
-  
+
 go
 ;WITH a AS (
 SELECT CASE WHEN [t].[Date+Null+Blank%] = 100 THEN 'DATE' WHEN [t].[YNTF+Null+Blank%] = 100 THEN 'BIT' WHEN [t].[Date+Null+Blank%] = 100 THEN 'BIGINT'
@@ -104,4 +104,3 @@ FROM [Profile].[Individual]  t
 )
 UPDATE d SET d.[Data Type]= NewDataType
 FROM definition.[Individual] d INNER JOIN a ON a.[Column] = d.[Field Name]
-

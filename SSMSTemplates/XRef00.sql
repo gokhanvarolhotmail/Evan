@@ -44,4 +44,4 @@ FULL OUTER JOIN [Definition].[vDemoQIDXrefLayout] AS [v] ON [v].[FieldName] = [c
 
 
 
-SELECT * FROM [Definition].[vDemoQIDXrefLayout] 
+SELECT * FROM [Definition].[vDemoQIDXrefLayout]

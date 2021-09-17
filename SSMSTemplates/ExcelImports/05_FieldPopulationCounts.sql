@@ -1,7 +1,7 @@
 SELECT
-	
+
 	*
-	INTO #temp 
+	INTO #temp
 FROM (VALUES
 (1, 'Household_ID', '237,893,196', '100'),
 (2, 'Individual_ID', '237,893,196', '100'),
@@ -392,7 +392,7 @@ FROM (VALUES
 vdata ([Column Order], [Column Name], [Record Count], [Fill Rate Percentage])
 
 
-SELECT [Column Order], [Column Name], CAST(REPLACE([Record Count],',','') AS BIGINT) AS [Record Count], CAST([Fill Rate Percentage] AS NUMERIC(10,2)) AS [Fill Rate Percentage] 
+SELECT [Column Order], [Column Name], CAST(REPLACE([Record Count],',','') AS BIGINT) AS [Record Count], CAST([Fill Rate Percentage] AS NUMERIC(10,2)) AS [Fill Rate Percentage]
 INTO FieldPopulationCounts
 FROM #temp
 

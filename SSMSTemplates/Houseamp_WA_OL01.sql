@@ -2,7 +2,7 @@
 SELECT
 CAST([Quantarium_Internal_PID] AS BIGINT) AS [Quantarium_Internal_PID],
 CAST([FIPS_Code] AS CHAR(5)) AS [FIPS_Code_(State/County)],
-CAST([Assessors_Parcel_Number] AS VARCHAR(45)) AS [Assessor’s_Parcel_Number_(APN,_PIN)],
+CAST([Assessors_Parcel_Number] AS VARCHAR(45)) AS [Assessorï¿½s_Parcel_Number_(APN,_PIN)],
 CAST([Duplicate_APN] AS VARCHAR(2)) AS [Duplicate_APN],
 CAST([Tax_Account_Number] AS VARCHAR(30)) AS [Tax_Account_Number],
 CAST([Current_Owner_Name] AS VARCHAR(166)) AS [Current_Owner_Name],
