@@ -1,4 +1,14 @@
 
+SELECT * FROM MLS m
+INNER JOIN [dbo].[OpenLien] AS [o] ON m.PRD_Property_ID = o.[Quantarium_Internal_PID]
+WHERE m.[in_status] = 'A'
+
+
+SELECT TOP 100 [PRD_Property_ID], in_load_date,in_list_date,in_sold_date ,[in_status],[LatestList], [MatchModel]  FROM mls
+
+
+
+
 
 SELECT COUNT(1)
 FROM [dbo].[OpenLien] AS [o]
