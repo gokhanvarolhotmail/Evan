@@ -14,36 +14,27 @@ SELECT TOP 100 * FROM [dbo].[Quantarium_Houseamp_WA_Select_DemoXref]  b
 
 SELECT * FROM metadata.columns WHERE columnname IN('Latitude','Longitude')
 
-sp_backupall
+DROP SYNONYM IF EXISTS [dbo].[OpenLien_Diff] ;
 
-sp_tableusage
-
-sp_rename 'Quantarium_Houseamp_WA_Select_OpenLien_20210622','OpenLien'
-
-sp_rename'[dbo].[Houseamp_WA_OL_Chg_20210913]','OpenLien_20210913'
-
-
-sp_rename 'Individual','DemoIndividual'
-sp_rename'XRef','DemoXRef'
-
-CREATE SYNONYM OpenLien_Diff FOR dbo.OpenLien_20210913
+EXEC( 'CREATE SYNONYM [dbo].[OpenLien_Diff]
+FOR [dbo].[OpenLien_20210913] ;' ) ;
 
 DROP TABLE IF EXISTS [dbo].[OpenLien_DiffKeys] ;
 
 SELECT [a].[Quantarium_Internal_PID]
 INTO [dbo].[OpenLien_DiffKeys]
 FROM [dbo].[OpenLien] AS [a]
-WHERE EXISTS ( SELECT 1 FROM [OpenLien_Diff] AS [b] WHERE [a].[Quantarium_Internal_PID] = [b].[Quantarium_Internal_PID] ) ;
+WHERE EXISTS ( SELECT 1 FROM [dbo].[OpenLien_Diff] AS [b] WHERE [a].[Quantarium_Internal_PID] = [b].[Quantarium_Internal_PID] )
+OPTION( RECOMPILE ) ;
 
-SELECT *FROM [dbo].[OpenLien_DiffKeys]
-
-
-
+IF @@ROWCOUNT = 0
+    RETURN ;
 
 DROP TABLE IF EXISTS [dbo].[DemoIndividual_DiffKeys] ;
 
 SELECT DISTINCT
-       [Quantarium_Internal_PID], [QId]
+       [k].[Quantarium_Internal_PID]
+     , [k].[QId]
 INTO [dbo].[DemoIndividual_DiffKeys]
 FROM( SELECT
           [k].[Quantarium_Internal_PID]
@@ -57,15 +48,18 @@ FROM( SELECT
         , [d2].[QId]
       FROM [dbo].[OpenLien_DiffKeys] AS [k]
       INNER JOIN [dbo].[DemoXRef] AS [d] ON [k].[Quantarium_Internal_PID] = [d].[Quantarium_Internal_PID]
-      INNER JOIN [dbo].[DemoIndividual] AS [d2] ON [d2].[Location_ID] = [d].[Location_ID] AND [d2].[Household_ID] = [d].[Household_ID_Owner_2] AND [d2].[Individual_ID] = [d].[Individual_ID_Owner_2] ) AS [k] ;
+      INNER JOIN [dbo].[DemoIndividual] AS [d2] ON [d2].[Location_ID] = [d].[Location_ID] AND [d2].[Household_ID] = [d].[Household_ID_Owner_2] AND [d2].[Individual_ID] = [d].[Individual_ID_Owner_2] ) AS [k]
+OPTION( RECOMPILE ) ;
 
 DECLARE
-    @getdate DATE = GETDATE()
-  , @BatchId INT  = 1 ;
+    @getdate       DATE    = GETDATE()
+  , @BatchId       INT     = 1
+  , @ArchiveReason TINYINT = 1 ;
 
 SELECT
     @getdate AS [DateAdded]
   , @BatchId AS [BatchId]
+  , @ArchiveReason AS [ArchiveReason]
   , [dk].[Quantarium_Internal_PID]
   , [di].*
 INTO [dbo].[DemoIndividual_Archive]
@@ -81,6 +75,7 @@ OPTION( RECOMPILE ) ;
 SELECT
     @getdate AS [DateAdded]
   , @BatchId AS [BatchId]
+  , @ArchiveReason AS [ArchiveReason]
   , [d].*
 INTO [dbo].[DemoXRef_Archive]
 FROM [dbo].[DemoXRef] AS [d]
@@ -95,6 +90,7 @@ OPTION( RECOMPILE ) ;
 SELECT
     @getdate AS [DateAdded]
   , @BatchId AS [BatchId]
+  , @ArchiveReason AS [ArchiveReason]
   , [a].*
 INTO [dbo].[OpenLien_Archive]
 FROM [dbo].[OpenLien] AS [a]
@@ -104,4 +100,9 @@ OPTION( RECOMPILE ) ;
 DELETE [a]
 FROM [dbo].[OpenLien] AS [a]
 WHERE EXISTS ( SELECT 1 FROM [dbo].[OpenLien_DiffKeys] AS [k] WHERE [k].[Quantarium_Internal_PID] = [a].[Quantarium_Internal_PID] )
+OPTION( RECOMPILE ) ;
+
+INSERT [dbo].[OpenLien] WITH( TABLOCK )
+SELECT *
+FROM [dbo].[OpenLien_Diff]
 OPTION( RECOMPILE ) ;
