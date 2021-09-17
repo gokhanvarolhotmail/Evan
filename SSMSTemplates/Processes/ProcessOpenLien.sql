@@ -1,4 +1,6 @@
-DECLARE @Type VARCHAR(30) = 'OpenLien' ;
+USE [Evan] ;
+GO
+DECLARE @Type VARCHAR(30) = 'MLS' ;
 DECLARE
     @getdate       DATE    = GETDATE()
   , @BatchId       INT     = 1
@@ -83,7 +85,7 @@ SELECT
   , [d].*
 INTO [dbo].[DemoXRef_Archive]
 FROM [dbo].[DemoXRef] AS [d]
-INNER JOIN [dbo].[OpenLien_DiffKeys] AS [k] ON [k].[Quantarium_Internal_PID] = [d].[Quantarium_Internal_PID]
+WHERE EXISTS ( SELECT 1 FROM [dbo].[OpenLien_DiffKeys] AS [k] WHERE [k].[Quantarium_Internal_PID] = [d].[Quantarium_Internal_PID] )
 OPTION( RECOMPILE ) ;
 
 IF @Type = 'OpenLien'
@@ -99,7 +101,7 @@ SELECT
   , [a].*
 INTO [dbo].[OpenLien_Archive]
 FROM [dbo].[OpenLien] AS [a]
-INNER JOIN [dbo].[OpenLien_DiffKeys] AS [k] ON [k].[Quantarium_Internal_PID] = [a].[Quantarium_Internal_PID]
+WHERE EXISTS ( SELECT 1 FROM [dbo].[OpenLien_DiffKeys] AS [k] WHERE [k].[Quantarium_Internal_PID] = [a].[Quantarium_Internal_PID] )
 OPTION( RECOMPILE ) ;
 
 IF @Type = 'OpenLien'
