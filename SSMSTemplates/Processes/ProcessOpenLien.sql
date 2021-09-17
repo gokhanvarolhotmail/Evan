@@ -106,3 +106,4 @@ INSERT [dbo].[OpenLien] WITH( TABLOCK )
 SELECT *
 FROM [dbo].[OpenLien_Diff]
 OPTION( RECOMPILE ) ;
+
