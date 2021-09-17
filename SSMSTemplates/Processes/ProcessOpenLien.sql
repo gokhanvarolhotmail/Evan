@@ -4,7 +4,8 @@ DECLARE @Type VARCHAR(30) = 'MLS' ;
 DECLARE
     @getdate       DATE    = GETDATE()
   , @BatchId       INT     = 1
-  , @ArchiveReason TINYINT = CASE WHEN @Type = 'OpenLien' THEN 1 WHEN @Type = 'MLS' THEN 2 END ;
+  , @ArchiveReason TINYINT = CASE WHEN @Type = 'OpenLien' THEN 1 WHEN @Type = 'MLS' THEN 2 END
+  , @Debug         BIT     = 1 ;
 
 IF @ArchiveReason IS NULL
     THROW 50000, 'Invalid Type!', 1 ;
@@ -34,11 +35,19 @@ DROP TABLE IF EXISTS [dbo].[OpenLien_DiffKeys] ;
 SELECT [a].[Quantarium_Internal_PID]
 INTO [dbo].[OpenLien_DiffKeys]
 FROM [dbo].[OpenLien] AS [a]
-WHERE EXISTS ( SELECT 1 FROM [dbo].[KeysTable] AS [b] WHERE [a].[Quantarium_Internal_PID] = [b].[Quantarium_Internal_PID] )
+WHERE EXISTS ( SELECT 1 FROM [dbo].[KeysTable] AS [b] WHERE [a].[Quantarium_Internal_PID] = [b].[Quantarium_Internal_PID] ) AND @Debug = 0
 OPTION( RECOMPILE ) ;
 
-IF @@ROWCOUNT = 0
+IF @Debug = 0 AND @@ROWCOUNT = 0
     RETURN ;
+
+INSERT [dbo].[OpenLien_DiffKeys_Archive] WITH( TABLOCK )
+SELECT
+    @getdate AS [DateAdded]
+  , @BatchId AS [BatchId]
+  , @ArchiveReason AS [ArchiveReason]
+  , [d].*
+FROM [dbo].[OpenLien_DiffKeys] AS [d] ;
 
 DROP TABLE IF EXISTS [dbo].[DemoIndividual_DiffKeys] ;
 
@@ -59,76 +68,106 @@ FROM( SELECT
       FROM [dbo].[OpenLien_DiffKeys] AS [k]
       INNER JOIN [dbo].[DemoXRef] AS [d] ON [k].[Quantarium_Internal_PID] = [d].[Quantarium_Internal_PID]
       INNER JOIN [dbo].[DemoIndividual] AS [d2] ON [d2].[Location_ID] = [d].[Location_ID] AND [d2].[Household_ID] = [d].[Household_ID_Owner_2] AND [d2].[Individual_ID] = [d].[Individual_ID_Owner_2] ) AS [k]
+WHERE @Debug = 0
 OPTION( RECOMPILE ) ;
 
+INSERT [dbo].[DemoIndividual_DiffKeys_Archive] WITH( TABLOCK )
+SELECT
+    @getdate AS [DateAdded]
+  , @BatchId AS [BatchId]
+  , @ArchiveReason AS [ArchiveReason]
+  , [d].*
+FROM [dbo].[DemoIndividual_DiffKeys] AS [d] ;
+
+INSERT [dbo].[DemoIndividual_Archive] WITH( TABLOCK )
 SELECT
     @getdate AS [DateAdded]
   , @BatchId AS [BatchId]
   , @ArchiveReason AS [ArchiveReason]
   , [dk].[Quantarium_Internal_PID]
   , [di].*
-INTO [dbo].[DemoIndividual_Archive]
 FROM [dbo].[DemoIndividual] AS [di]
 INNER JOIN [dbo].[DemoIndividual_DiffKeys] AS [dk] ON [dk].[QId] = [di].[QId]
+WHERE @Debug = 0
 OPTION( RECOMPILE ) ;
 
 IF @Type = 'OpenLien'
     DELETE [di]
     FROM [dbo].[DemoIndividual] AS [di]
-    WHERE EXISTS ( SELECT 1 FROM [dbo].[DemoIndividual_DiffKeys] AS [dk] WHERE [dk].[QId] = [di].[QId] )
+    WHERE EXISTS ( SELECT 1 FROM [dbo].[DemoIndividual_DiffKeys] AS [dk] WHERE [dk].[QId] = [di].[QId] ) AND @Debug = 0
     OPTION( RECOMPILE ) ;
 
+INSERT [dbo].[DemoXRef_Archive] WITH( TABLOCK )
 SELECT
     @getdate AS [DateAdded]
   , @BatchId AS [BatchId]
   , @ArchiveReason AS [ArchiveReason]
   , [d].*
-INTO [dbo].[DemoXRef_Archive]
 FROM [dbo].[DemoXRef] AS [d]
-WHERE EXISTS ( SELECT 1 FROM [dbo].[OpenLien_DiffKeys] AS [k] WHERE [k].[Quantarium_Internal_PID] = [d].[Quantarium_Internal_PID] )
+WHERE EXISTS ( SELECT 1 FROM [dbo].[OpenLien_DiffKeys] AS [k] WHERE [k].[Quantarium_Internal_PID] = [d].[Quantarium_Internal_PID] ) AND @Debug = 0
 OPTION( RECOMPILE ) ;
 
 IF @Type = 'OpenLien'
     DELETE [d]
     FROM [dbo].[DemoXRef] AS [d]
-    WHERE EXISTS ( SELECT 1 FROM [dbo].[OpenLien_DiffKeys] AS [k] WHERE [k].[Quantarium_Internal_PID] = [d].[Quantarium_Internal_PID] )
+    WHERE EXISTS ( SELECT 1 FROM [dbo].[OpenLien_DiffKeys] AS [k] WHERE [k].[Quantarium_Internal_PID] = [d].[Quantarium_Internal_PID] ) AND @Debug = 0
     OPTION( RECOMPILE ) ;
 
+INSERT [dbo].[OpenLien_Archive] WITH( TABLOCK )
 SELECT
     @getdate AS [DateAdded]
   , @BatchId AS [BatchId]
   , @ArchiveReason AS [ArchiveReason]
   , [a].*
-INTO [dbo].[OpenLien_Archive]
 FROM [dbo].[OpenLien] AS [a]
-WHERE EXISTS ( SELECT 1 FROM [dbo].[OpenLien_DiffKeys] AS [k] WHERE [k].[Quantarium_Internal_PID] = [a].[Quantarium_Internal_PID] )
+WHERE EXISTS ( SELECT 1 FROM [dbo].[OpenLien_DiffKeys] AS [k] WHERE [k].[Quantarium_Internal_PID] = [a].[Quantarium_Internal_PID] ) AND @Debug = 0
 OPTION( RECOMPILE ) ;
 
 IF @Type = 'OpenLien'
     DELETE [a]
     FROM [dbo].[OpenLien] AS [a]
-    WHERE EXISTS ( SELECT 1 FROM [dbo].[OpenLien_DiffKeys] AS [k] WHERE [k].[Quantarium_Internal_PID] = [a].[Quantarium_Internal_PID] )
+    WHERE EXISTS ( SELECT 1 FROM [dbo].[OpenLien_DiffKeys] AS [k] WHERE [k].[Quantarium_Internal_PID] = [a].[Quantarium_Internal_PID] ) AND @Debug = 0
     OPTION( RECOMPILE ) ;
 
 IF @Type = 'OpenLien'
     INSERT [dbo].[OpenLien] WITH( TABLOCK )
     SELECT *
     FROM [dbo].[OpenLien_Diff]
+    WHERE @Debug = 0
     OPTION( RECOMPILE ) ;
 ELSE IF @Type = 'MLS'
          BEGIN
+             INSERT [dbo].[MLS_Archive] WITH( TABLOCK )
              SELECT
                  @getdate AS [DateAdded]
                , @BatchId AS [BatchId]
                , @ArchiveReason AS [ArchiveReason]
                , [m].*
-             INTO [dbo].[MLS_Archive]
              FROM [dbo].[MLS] AS [m]
-             WHERE [m].[in_status] = 'A' AND EXISTS ( SELECT 1 FROM [dbo].[OpenLien_DiffKeys] AS [d] WHERE [d].[Quantarium_Internal_PID] = [m].[PRD_Property_ID] )
+             WHERE [m].[in_status] = 'A' AND EXISTS ( SELECT 1 FROM [dbo].[OpenLien_DiffKeys] AS [d] WHERE [d].[Quantarium_Internal_PID] = [m].[PRD_Property_ID] ) AND @Debug = 0
              OPTION( RECOMPILE ) ;
 
              DELETE [m]
              FROM [dbo].[MLS] AS [m]
-             WHERE [m].[in_status] = 'A' AND EXISTS ( SELECT 1 FROM [dbo].[OpenLien_DiffKeys] AS [d] WHERE [d].[Quantarium_Internal_PID] = [m].[PRD_Property_ID] )
+             WHERE [m].[in_status] = 'A' AND EXISTS ( SELECT 1 FROM [dbo].[OpenLien_DiffKeys] AS [d] WHERE [d].[Quantarium_Internal_PID] = [m].[PRD_Property_ID] ) AND @Debug = 0
              OPTION( RECOMPILE ) ;
          END ;
+GO
+/*
+CREATE CLUSTERED COLUMNSTORE INDEX [CCI] ON [dbo].[DemoIndividual_DiffKeys] ;
+GO
+CREATE CLUSTERED COLUMNSTORE INDEX [CCI] ON [dbo].[OpenLien_DiffKeys] ;
+GO
+CREATE CLUSTERED COLUMNSTORE INDEX [CCI] ON [dbo].[DemoIndividual_DiffKeys_Archive] ;
+GO
+CREATE CLUSTERED COLUMNSTORE INDEX [CCI] ON [dbo].[OpenLien_DiffKeys_Archive] ;
+GO
+CREATE CLUSTERED COLUMNSTORE INDEX [CCI] ON [dbo].[MLS_Archive] ;
+GO
+CREATE CLUSTERED COLUMNSTORE INDEX [CCI] ON [dbo].[OpenLien_Archive] ;
+GO
+CREATE CLUSTERED COLUMNSTORE INDEX [CCI] ON [dbo].[DemoXRef_Archive] ;
+GO
+CREATE CLUSTERED COLUMNSTORE INDEX [CCI] ON [dbo].[DemoIndividual_Archive] ;
+GO
+*/
