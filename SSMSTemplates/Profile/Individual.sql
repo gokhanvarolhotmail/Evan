@@ -97,7 +97,8 @@ WHERE  ([t].[Num+Null+Blank%] = 100 OR [t].[Int+Null+Blank%] = 100 OR [t].[Date+
 
 go
 ;WITH a AS (
-SELECT CASE WHEN [t].[Date+Null+Blank%] = 100 THEN 'DATE' WHEN [t].[YNTF+Null+Blank%] = 100 THEN 'BIT' WHEN [t].[Date+Null+Blank%] = 100 THEN 'BIGINT'
+SELECT CASE WHEN [t].[Date+Null+Blank%] = 100 THEN 'DATE' WHEN [t].[YNTF+Null+Blank%] = 100 THEN 'BIT' WHEN [t].[Date+Null+Blank%] = 100 THEN 'DATE'
+WHEN [t].[Int+Null+Blank%] = 100 THEN 'BIGINT'
 WHEN [t].[Num+Null+Blank%] = 100 THEN 'REAL'
 END AS NewDataType,*
 FROM [Profile].[Individual]  t
