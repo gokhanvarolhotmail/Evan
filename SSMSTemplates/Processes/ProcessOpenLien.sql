@@ -67,8 +67,6 @@ SELECT
 FROM ' +    @TableName ;
 
             EXEC( @SQL ) ;
-
-            SET @SQL = NULL ;
         END ;
     ELSE IF @Type = 'MLS'
              BEGIN
@@ -84,9 +82,9 @@ FROM ' +         @TableName + N' [m]
 WHERE [m].[in_status] = ''A''' ;
 
                  EXEC( @SQL ) ;
-
-                 SET @SQL = NULL ;
              END ;
+
+    SET @SQL = NULL ;
 
     DROP TABLE IF EXISTS [dbo].[OpenLien_DiffKeys] ;
 
