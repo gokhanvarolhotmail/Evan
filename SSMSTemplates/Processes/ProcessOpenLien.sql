@@ -57,7 +57,7 @@ DECLARE
 DECLARE
     @DriverId                           INT
   , @SQL                                NVARCHAR(MAX)
-  , @Debug                              BIT          = 1
+  , @Debug                              BIT           = 1
   , @OpenLien_DiffKeysCnt               BIGINT
   , @DemoIndividual_DiffKeysCnt         BIGINT
   , @DemoIndividual_DiffKeys_ArchiveCnt BIGINT
@@ -69,17 +69,19 @@ DECLARE
   , @OpenLien_DelCnt                    BIGINT
   , @OpenLien_InsCnt                    BIGINT
   , @MLS_ArchiveCnt                     BIGINT
-  , @MLS_DelCnt                         BIGINT ;
+  , @MLS_DelCnt                         BIGINT
+  , @Message                            NVARCHAR(4000) ;
 
-INSERT [Control].[Driver]( [Type], [TableName], [DateAdded], [DateStarted] )
-VALUES( @Type, @TableName, GETDATE(), GETDATE()) ;
+INSERT [Control].[Driver]( [Type], [TableName] )
+VALUES( @Type, @TableName ) ;
 
 SET @DriverId = SCOPE_IDENTITY() ;
 
 UPDATE [d]
 SET
-    [d].[DateStarted] = GETDATE()
-  , [Status] = 50 /*Running*/
+    @TableName = [d].[TableName]
+  , [d].[DateStarted] = GETDATE()
+  , [d].[Status] = 50 /*Running*/
   , [d].[DateEnded] = NULL
   , [d].[SQL] = NULL
   , [d].[ErrorLine] = NULL
@@ -89,6 +91,13 @@ SET
   , [d].[ErrorState] = NULL
 FROM [Control].[Driver] AS [d]
 WHERE [d].[DriverId] = @DriverId ;
+
+IF OBJECT_ID(@TableName, 'U') IS NULL
+    BEGIN
+        SET @Message = CONCAT('Table: ', @TableName, ' does not exists!') ;
+
+        THROW 50000, @Message, 1 ;
+    END ;
 
 DROP SYNONYM IF EXISTS [dbo].[OpenLien_Diff] ;
 DROP SYNONYM IF EXISTS [dbo].[MLS] ;
