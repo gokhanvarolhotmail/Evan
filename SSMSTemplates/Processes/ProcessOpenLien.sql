@@ -111,7 +111,7 @@ BEGIN TRY
             EXEC( @SQL ) ;
 
             SET @SQL = N'CREATE OR ALTER VIEW [dbo].[KeysTable]
-as
+AS
 SELECT
 	[Quantarium_Internal_PID]
 FROM ' +    @TableName ;
@@ -127,7 +127,7 @@ FROM ' +    @TableName ;
                  EXEC( @SQL ) ;
 
                  SET @SQL = N'CREATE OR ALTER VIEW [dbo].[KeysTable]
-as
+AS
 SELECT
 	[PRD_Property_ID] as [Quantarium_Internal_PID]
 FROM ' +         @TableName + N' [m]
@@ -296,6 +296,7 @@ WHERE [m].[in_status] = ''A''' ;
       , [d].[OpenLien_InsCnt] = @OpenLien_InsCnt
       , [d].[MLS_ArchiveCnt] = @MLS_ArchiveCnt
       , [d].[MLS_DelCnt] = @MLS_DelCnt
+      , [d].[Status] = 100
       , [d].[DateEnded] = GETDATE()
       , [d].[SQL] = @SQL
       , [d].[ErrorLine] = NULL
@@ -321,6 +322,7 @@ BEGIN CATCH
       , [d].[OpenLien_InsCnt] = @OpenLien_InsCnt
       , [d].[MLS_ArchiveCnt] = @MLS_ArchiveCnt
       , [d].[MLS_DelCnt] = @MLS_DelCnt
+      , [d].[Status] = 90
       , [d].[DateEnded] = GETDATE()
       , [d].[SQL] = @SQL
       , [d].[ErrorLine] = ERROR_LINE()
