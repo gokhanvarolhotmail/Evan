@@ -1,12 +1,21 @@
 USE [Evan] ;
 GO
+
 /*
-DROP TABLE IF EXISTS [Control].[Driver] ;
+
+CREATE TABLE [Control].[DriverStatus] ( [Status] TINYINT NOT NULL PRIMARY KEY CLUSTERED, [Description] VARCHAR(100) NOT NULL UNIQUE NONCLUSTERED ) ;
+
+INSERT [Control].[DriverStatus]( [Status], [Description] )
+VALUES( 10, 'Initial' )
+    , ( 50, 'Running' )
+    , ( 90, 'Failed' )
+    , ( 100, 'Succeeded' ) ;
 
 CREATE TABLE [Control].[Driver] (
 	[DriverId] int IDENTITY NOT NULL,
 	[Type] varchar(30) NOT NULL,
 	[TableName] varchar(256) NOT NULL,
+	[Status] tinyint NOT NULL CONSTRAINT [Control_Driver$Status_DF] DEFAULT ((10)),
 	[OpenLien_DiffKeysCnt] bigint NULL,
 	[DemoIndividual_DiffKeysCnt] bigint NULL,
 	[DemoIndividual_DiffKeys_ArchiveCnt] bigint NULL,
@@ -36,8 +45,10 @@ ALTER TABLE [Control].[Driver] ADD CONSTRAINT [CK__Driver__TableNam__64CCF2AE] C
 GO
 ALTER TABLE [Control].[Driver] ADD CONSTRAINT [CK__Driver__Type__63D8CE75] CHECK ([Type]='MLS' OR [Type]='OpenLien')
 GO
+ALTER TABLE [Control].[Driver] ADD CONSTRAINT [Control_Driver$Status_Control_DriverStatus_FK] FOREIGN KEY ([Status]) REFERENCES [Control].[DriverStatus] ([Status])
+GO
 
-
+ALTER TABLE [Control].[Driver] ADD UNIQUE NONCLUSTERED([TableName])
 */
 
 DECLARE
@@ -64,6 +75,20 @@ INSERT [Control].[Driver]( [Type], [TableName], [DateAdded], [DateStarted] )
 VALUES( @Type, @TableName, GETDATE(), GETDATE()) ;
 
 SET @DriverId = SCOPE_IDENTITY() ;
+
+UPDATE [d]
+SET
+    [d].[DateStarted] = GETDATE()
+  , [Status] = 50 /*Running*/
+  , [d].[DateEnded] = NULL
+  , [d].[SQL] = NULL
+  , [d].[ErrorLine] = NULL
+  , [d].[ErrorMessage] = NULL
+  , [d].[ErrorNumber] = NULL
+  , [d].[ErrorSeverity] = NULL
+  , [d].[ErrorState] = NULL
+FROM [Control].[Driver] AS [d]
+WHERE [d].[DriverId] = @DriverId ;
 
 DROP SYNONYM IF EXISTS [dbo].[OpenLien_Diff] ;
 DROP SYNONYM IF EXISTS [dbo].[MLS] ;
