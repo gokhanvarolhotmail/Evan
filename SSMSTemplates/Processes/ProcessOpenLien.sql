@@ -1,56 +1,6 @@
 USE [Evan] ;
 GO
 
-/*
-
-CREATE TABLE [Control].[DriverStatus] ( [Status] TINYINT NOT NULL PRIMARY KEY CLUSTERED, [Description] VARCHAR(100) NOT NULL UNIQUE NONCLUSTERED ) ;
-
-INSERT [Control].[DriverStatus]( [Status], [Description] )
-VALUES( 10, 'Initial' )
-    , ( 50, 'Running' )
-    , ( 90, 'Failed' )
-    , ( 100, 'Succeeded' ) ;
-
-CREATE TABLE [Control].[Driver] (
-	[DriverId] int IDENTITY NOT NULL,
-	[Type] varchar(30) NOT NULL,
-	[TableName] varchar(256) NOT NULL,
-	[Status] tinyint NOT NULL CONSTRAINT [Control_Driver$Status_DF] DEFAULT ((10)),
-	[OpenLien_DiffKeysCnt] bigint NULL,
-	[DemoIndividual_DiffKeysCnt] bigint NULL,
-	[DemoIndividual_DiffKeys_ArchiveCnt] bigint NULL,
-	[DemoIndividual_Archive] bigint NULL,
-	[DemoIndividual_DelCnt] bigint NULL,
-	[DemoXRef_ArchiveCnt] bigint NULL,
-	[DemoXRef_DelCnt] bigint NULL,
-	[OpenLien_ArchiveCnt] bigint NULL,
-	[OpenLien_DelCnt] bigint NULL,
-	[OpenLien_InsCnt] bigint NULL,
-	[MLS_ArchiveCnt] bigint NULL,
-	[MLS_DelCnt] bigint NULL,
-	[DateAdded] datetime2(3) NOT NULL CONSTRAINT [Control_Driver$DateAdded_GETDATE_DF] DEFAULT (getdate()),
-	[DateStarted] datetime2(3) NULL,
-	[DateEnded] datetime2(3) NULL,
-	[SQL] nvarchar(MAX) NULL,
-	[ErrorLine] int NULL,
-	[ErrorMessage] nvarchar(4000) NULL,
-	[ErrorNumber] int NULL,
-	[ErrorSeverity] int NULL,
-	[ErrorState] int NULL)
- TEXTIMAGE_ON [PRIMARY]
-GO
-ALTER TABLE [Control].[Driver] ADD CONSTRAINT [Control_Driver_PKC] PRIMARY KEY CLUSTERED ([DriverId]) WITH (SORT_IN_TEMPDB = ON) ON [PRIMARY]
-GO
-ALTER TABLE [Control].[Driver] ADD CONSTRAINT [CK__Driver__TableNam__64CCF2AE] CHECK (concat(quotename(parsename([TableName],(2))),'.',quotename(parsename([TableName],(1))))=[TableName])
-GO
-ALTER TABLE [Control].[Driver] ADD CONSTRAINT [CK__Driver__Type__63D8CE75] CHECK ([Type]='MLS' OR [Type]='OpenLien')
-GO
-ALTER TABLE [Control].[Driver] ADD CONSTRAINT [Control_Driver$Status_Control_DriverStatus_FK] FOREIGN KEY ([Status]) REFERENCES [Control].[DriverStatus] ([Status])
-GO
-
-ALTER TABLE [Control].[Driver] ADD UNIQUE NONCLUSTERED([TableName])
-*/
-
 DECLARE
     @Type      VARCHAR(30)  = 'MLS'
   , @TableName VARCHAR(256) = '[dbo].[OpenLien_20210913]' ;
