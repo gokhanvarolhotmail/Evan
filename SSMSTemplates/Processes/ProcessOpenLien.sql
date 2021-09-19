@@ -49,11 +49,11 @@ IF OBJECT_ID(@TableName, 'U') IS NULL
         THROW 50000, @Message, 1 ;
     END ;
 
-DROP SYNONYM IF EXISTS [dbo].[OpenLien_Diff] ;
-DROP SYNONYM IF EXISTS [dbo].[MLS] ;
-DROP VIEW IF EXISTS [dbo].[KeysTable] ;
-
 BEGIN TRY
+    DROP SYNONYM IF EXISTS [dbo].[OpenLien_Diff] ;
+    DROP SYNONYM IF EXISTS [dbo].[MLS] ;
+    DROP VIEW IF EXISTS [dbo].[KeysTable] ;
+
     IF @Type = 'OpenLien'
         BEGIN
             SET @SQL = N'CREATE SYNONYM [dbo].[OpenLien_Diff] FOR ' + @TableName ;
