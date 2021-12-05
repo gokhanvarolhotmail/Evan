@@ -1,4 +1,3 @@
-
 SELECT * FROM MLS m
 INNER JOIN [dbo].[OpenLien] AS [o] ON m.PRD_Property_ID = o.[Quantarium_Internal_PID]
 WHERE m.[in_status] = 'A'
@@ -116,4 +115,3 @@ INSERT [dbo].[OpenLien] WITH( TABLOCK )
 SELECT *
 FROM [dbo].[OpenLien_Diff]
 OPTION( RECOMPILE ) ;
-

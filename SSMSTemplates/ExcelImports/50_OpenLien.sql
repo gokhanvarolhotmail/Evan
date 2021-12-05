@@ -17,7 +17,7 @@ Leading zeros or spaces used to maintain the integrity of the format.  Re-format
 (4, N'Property ID', N'Duplicate_APN', N'Duplicate_APN', 2, N'VARCHAR(2)', NULL, NULL, N'A) Separate records are created for each "duplicate" APNs with a different property address.
 B) Whenever a Duplicate APN with a different address exists, a sequential number (beginning with "01") is entered in this field for each duplicate record.  This assigned ID number creates a UNIQUE parcel ID for each record when combined with the parcel number in Field #3.', NULL, NULL),
 (5, N'Property ID', N'Tax_Account_Number', N'Tax_Account_Number', 30, N'VARCHAR(30)', NULL, NULL, N'When provided in the assessment files, an arbitrary parcel identifier usually assigned by the County Treasurer for tax purposes.', NULL, NULL),
-(6, N'Ownership', N'Current_Owner_Name', N'Current_Owner_Name', 166, N'VARCHAR(166)', NULL, NULL, N'Current Owner Name. 
+(6, N'Ownership', N'Current_Owner_Name', N'Current_Owner_Name', 166, N'VARCHAR(166)', NULL, NULL, N'Current Owner Name.
 1. The Assessed owner(s) as of the lien date.  Name displayed exactly as shown in the current Assessor''s Roll
 or
 2. Name of the grantee on the most recent recorded document.', NULL, NULL),
@@ -45,7 +45,7 @@ or
 (24, N'Ownership', N'Buyer_ID_Code_1', N'Buyer_ID_Code_1', 2, N'VARCHAR(2)', NULL, N'ID Code', N'Used to identify the nature of each grantee keyed from the recorded document.  See CodeXlate Tab.', NULL, NULL),
 (25, N'Ownership', N'Buyer_Vesting_Code', N'Buyer_Vesting_Code', 2, N'VARCHAR(2)', NULL, N'Buyer/Borrower Vesting Code
 
-** Note If Buyer/Borrower Vesting Code = "AV" then use the "Assessee/Owner Vesting" Code table to translate Buyer_ID_Code_1', N'The vesting code, when present, indicates how the buyers took title to the subject property.  See CodeXlate Tab.  
+** Note If Buyer/Borrower Vesting Code = "AV" then use the "Assessee/Owner Vesting" Code table to translate Buyer_ID_Code_1', N'The vesting code, when present, indicates how the buyers took title to the subject property.  See CodeXlate Tab.
 Note:  The vesting codes EA and EU should not appear on records being keyed by IDM since we will be picking up all Buyer names involved in the transaction. However, these codes may still apply for transfer data purchased from a 3rd party vendor.', NULL, NULL),
 (26, N'Ownership', N'Length_of_Residence_Months', N'Length_of_Residence_Months', 4, N'INT', N'9999', NULL, N'The amount of months that the current owner has owned the property', N'2.6', NULL),
 (27, N'Ownership', N'Length_of_Residence_Code', N'Length_of_Residence_Code', 2, N'VARCHAR(2)', NULL, N'LOR Range Code', N'Code that identifies the range category the length of residence value falls into (See Code Xlate -LOR Range Code)', NULL, NULL),
@@ -187,7 +187,7 @@ This field should be expressed numerically with no implied decimal 9(9). Maximum
 (139, N'Land Characteristics', N'Lot_Size_or_Area', N'Lot_Size_or_Area', 14, N'REAL', NULL, NULL, N'The total square footage of the land.', NULL, NULL),
 (140, N'Land Characteristics', N'Lot_Size_Area_Unit', N'Lot_Size_Area_Unit', 2, N'VARCHAR(2)', NULL, NULL, N'Indicates the unit of measurement for the Lot Size or Area.
 AC = Acres; FF = Front Feet; SF = Square Feet', NULL, NULL),
-(141, N'Land Characteristics', N'Original_Lot_Size_or_Area', N'Original_Lot_Size_or_Area', 14, N'VARCHAR(14)', NULL, NULL, N'The total square footage of the land. 
+(141, N'Land Characteristics', N'Original_Lot_Size_or_Area', N'Original_Lot_Size_or_Area', 14, N'VARCHAR(14)', NULL, NULL, N'The total square footage of the land.
 Possible formats:
 --Acreage (if less than 1.00 AC, converted to SF):  9999.99AC or 999.999AC based on content of source file
 --Square footage:  9999999SF (converted to acres when exceeds 43,560 SF)
@@ -300,7 +300,7 @@ Note:
 me.', N'2.6', NULL),
 (231, N'Financing', N'Mtg01_Interest_Rate_Not_Less_Than', N'Mtg01_Interest_Rate_Not_Less_Than', 8, N'DECIMAL(7, 5)', N'99.99999', NULL, N'The minimum interest rate allowed on the first change date (date when loan switched from a fixed to an adjustable interest rate).', N'2.6', NULL),
 (232, N'Financing', N'Mtg01_Maximum_Interest_Rate', N'Mtg01_Maximum_Interest_Rate', 8, N'DECIMAL(7, 5)', N'99.99999', NULL, N'The maximum interest rate allowed for the loan.', N'2.6', NULL),
-(233, N'Financing', N'Mtg01_Interest_Only_Period', N'Mtg01_Interest_Only_Period', 2, N'VARCHAR(2)', NULL, NULL, N'If available, the actual interest only period (expressed in years) OR 
+(233, N'Financing', N'Mtg01_Interest_Only_Period', N'Mtg01_Interest_Only_Period', 2, N'VARCHAR(2)', NULL, NULL, N'If available, the actual interest only period (expressed in years) OR
 (Y)es = the loan has an interest-only period.', NULL, NULL),
 (234, N'Financing', N'Mtg01_fixed_step_conversion_rate_rider', N'Mtg01_fixed_step_conversion_rate_rider', 1, N'VARCHAR(1)', NULL, N'Fixed/Step (Conversion) Rate Rider', N'Indicates initial state of the interest rate (fixed, variable, etc.) for the concurrent loan, if available.  See "CodeXlate" Tab.', NULL, NULL),
 (235, N'Financing', N'Mtg01_First_Change_Date_Year_Conversion_Rider', N'Mtg01_First_Change_Date', 8, N'VARCHAR(8)', N'YYYYMMDD', NULL, N'The date that the loan converts from a FIXED to ADJUSTABLE interest rate.', N'2.6; 2.6a', NULL),
@@ -310,7 +310,7 @@ me.', N'2.6', NULL),
 (239, N'Financing', N'Mtg01_Title_Company_Name', N'Mtg01_Title_Company_Name', 28, N'VARCHAR(28)', NULL, NULL, N'Name of Title Company which issues the certificate of title insurance.  Not coded or abbreviated.
 If more than one Title Company Name is reported on the document, this field will report "Multiple" versus an actual Title Company Name.', NULL, NULL),
 (240, N'Financing', N'Mtg01_Lender_Name', N'Mtg01_Lender_Name', 40, N'VARCHAR(40)', NULL, NULL, N'Lender DBA/AKA Name.  Not preceded with letters "DBA" or "AKA".  If present, Lender Care of Name is preceded by "C/O".  "DBA" takes priority over "C/O" if both are present on the same document.', NULL, NULL),
-(241, N'Financing', N'Mtg01_Lender_Mail_Full_Street_Address', N'Mtg01_Lender_Mail_Full_Street_Address', 60, N'VARCHAR(60)', NULL, NULL, N'Lender Address keyed for Private Party Lenders .  
+(241, N'Financing', N'Mtg01_Lender_Mail_Full_Street_Address', N'Mtg01_Lender_Mail_Full_Street_Address', 60, N'VARCHAR(60)', NULL, NULL, N'Lender Address keyed for Private Party Lenders .
 Note:  Lender Zip keyed for all Lenders.', NULL, NULL),
 (242, N'Financing', N'Mtg01_Lender_Mail_Unit', N'Mtg01_Lender_Mail_Unit', 11, N'VARCHAR(11)', NULL, NULL, NULL, NULL, NULL),
 (243, N'Financing', N'Mtg01_Lender_Mail_City', N'Mtg01_Lender_Mail_City', 30, N'VARCHAR(30)', NULL, NULL, NULL, NULL, NULL),
@@ -335,9 +335,9 @@ Value will appear in this field OR corresponding Loan Term - Months field or bot
 (261, N'Financing', N'Mtg01_Assigned_Lender_Name', N'Mtg01_Assigned_Lender_Name', 250, N'VARCHAR(250)', NULL, NULL, N'The current lender the loan has been assigned to via document recording', N'2.6', NULL),
 (262, N'Financing', N'Mtg01_Assignment_Date', N'Mtg01_Assignment_Date', 8, N'VARCHAR(8)', N'YYYYMMDD', NULL, N'The date that the current lender took assignment of the loan', NULL, NULL),
 (263, N'Financing', N'Mtg01_Number_of_Assignments', N'Mtg01_Number_of_Assignments', 3, N'INT', N'999', NULL, N'The total number of times the loan has been assigned', N'2.6', NULL),
-(264, N'Financing', N'Mtg01_PreForeclosure_Status', N'Mtg01_PreForeclosure_Status', 1, N'INT', N'9', NULL, N'The pre-foreclosure status of the loan: 
-0/blank = none, 
-1 = Notice of Default/Lis Pendens, 
+(264, N'Financing', N'Mtg01_PreForeclosure_Status', N'Mtg01_PreForeclosure_Status', 1, N'INT', N'9', NULL, N'The pre-foreclosure status of the loan:
+0/blank = none,
+1 = Notice of Default/Lis Pendens,
 2 = Notice of Sale/Final Judgement,
 3 = Release/Rescission', NULL, NULL),
 (265, N'Financing', N'Mtg01_PreFcl_Recording_Date', N'Mtg01_PreFcl_Recording_Date', 8, N'VARCHAR(8)', N'YYYYMMDD', NULL, N'The recording date of the most recent preforeclosure filing', N'2.6', NULL),
@@ -366,10 +366,10 @@ Note:
 me.', N'2.6', NULL),
 (283, N'Financing', N'Mtg02_Interest_Rate_Not_Less_Than', N'Mtg02_Interest_Rate_Not_Less_Than', 8, N'DECIMAL(7, 5)', N'99.99999', NULL, N'The minimum interest rate allowed on the first change date (date when loan switched from a fixed to an adjustable interest rate).', N'2.6', NULL),
 (284, N'Financing', N'Mtg02_Maximum_Interest_Rate', N'Mtg02_Maximum_Interest_Rate', 8, N'DECIMAL(7, 5)', N'99.99999', NULL, N'The maximum interest rate allowed for the loan.', N'2.6', NULL),
-(285, N'Financing', N'Mtg02_Interest_Only_Period', N'Mtg02_Interest_Only_Period', 2, N'VARCHAR(2)', NULL, NULL, N'If available, the actual interest only period (expressed in years) OR 
+(285, N'Financing', N'Mtg02_Interest_Only_Period', N'Mtg02_Interest_Only_Period', 2, N'VARCHAR(2)', NULL, NULL, N'If available, the actual interest only period (expressed in years) OR
 (Y)es = the loan has an interest-only period.', NULL, NULL),
 (286, N'Financing', N'Mtg02_fixed_step_conversion_rate_rider', N'Mtg02_fixed_step_conversion_rate_rider', 1, N'VARCHAR(1)', NULL, N'Fixed/Step (Conversion) Rate Rider', N'Indicates initial state of the interest rate (fixed, variable, etc.) for the concurrent loan, if available.  See "CodeXlate" Tab.', NULL, NULL),
-(287, N'Financing', N'Mtg02_First_Change_Date_Year_Conversion_Rider', N'Mtg02_First_Change_Date', 8, N'VARCHAR(8)', N'YYYYMMDD', NULL, N'The date that the loan converts from a FIXED to ADJUSTABLE interest rate.  
+(287, N'Financing', N'Mtg02_First_Change_Date_Year_Conversion_Rider', N'Mtg02_First_Change_Date', 8, N'VARCHAR(8)', N'YYYYMMDD', NULL, N'The date that the loan converts from a FIXED to ADJUSTABLE interest rate.
 Format: YYYYMMDD', N'2.6; 2.6a', NULL),
 (288, N'Financing', N'Mtg02_First_Change_Date_Month_Day_Conversion_Rider', N'Mtg02_First_Change_Period', 4, N'INT', N'9999', NULL, N'The number of months between loan origination and first change date', N'2.6; 2.6a', NULL),
 (289, N'Financing', N'Mtg02_Prepayment_Rider', N'Mtg02_Prepayment_Rider', 1, N'VARCHAR(1)', NULL, NULL, N'(Y)es = a Prepayment Rate Rider recorded with the trust deed.  Refer to Prepayment Term.', NULL, NULL),
@@ -377,7 +377,7 @@ Format: YYYYMMDD', N'2.6; 2.6a', NULL),
 (291, N'Financing', N'Mtg02_Title_Company_Name', N'Mtg02_Title_Company_Name', 28, N'VARCHAR(28)', NULL, NULL, N'Name of Title Company which issues the certificate of title insurance.  Not coded or abbreviated.
 If more than one Title Company Name is reported on the document, this field will report "Multiple" versus an actual Title Company Name.', NULL, NULL),
 (292, N'Financing', N'Mtg02_Lender_Name', N'Mtg02_Lender_Name', 40, N'VARCHAR(40)', NULL, NULL, N'Lender DBA/AKA Name.  Not preceded with letters "DBA" or "AKA".  If present, Lender Care of Name is preceded by "C/O".  "DBA" takes priority over "C/O" if both are present on the same document.', NULL, NULL),
-(293, N'Financing', N'Mtg02_Lender_Mail_Full_Street_Address', N'Mtg02_Lender_Mail_Full_Street_Address', 60, N'VARCHAR(60)', NULL, NULL, N'Lender Address keyed for Private Party Lenders .  
+(293, N'Financing', N'Mtg02_Lender_Mail_Full_Street_Address', N'Mtg02_Lender_Mail_Full_Street_Address', 60, N'VARCHAR(60)', NULL, NULL, N'Lender Address keyed for Private Party Lenders .
 Note:  Lender Zip keyed for all Lenders.', NULL, NULL),
 (294, N'Financing', N'Mtg02_Lender_Mail_Unit', N'Mtg02_Lender_Mail_Unit', 11, N'VARCHAR(11)', NULL, NULL, NULL, NULL, NULL),
 (295, N'Financing', N'Mtg02_Lender_Mail_City', N'Mtg02_Lender_Mail_City', 30, N'VARCHAR(30)', NULL, NULL, NULL, NULL, NULL),
@@ -402,9 +402,9 @@ Value will appear in this field OR corresponding Loan Term - Months field or bot
 (313, N'Financing', N'Mtg02_Assigned_Lender_Name', N'Mtg02_Assigned_Lender_Name', 250, N'VARCHAR(250)', NULL, NULL, N'The current lender the loan has been assigned to via document recording', N'2.6', NULL),
 (314, N'Financing', N'Mtg02_Assignment_Date', N'Mtg02_Assignment_Date', 8, N'VARCHAR(8)', N'YYYYMMDD', NULL, N'The date that the current lender took assignment of the loan', NULL, NULL),
 (315, N'Financing', N'Mtg02_Number_of_Assignments', N'Mtg02_Number_of_Assignments', 3, N'INT', N'999', NULL, N'The total number of times the loan has been assigned', N'2.6', NULL),
-(316, N'Financing', N'Mtg02_PreForeclosure_Status', N'Mtg02_PreForeclosure_Status', 1, N'INT', N'9', NULL, N'The pre-foreclosure status of the loan: 
-0/blank = none, 
-1 = Notice of Default/Lis Pendens, 
+(316, N'Financing', N'Mtg02_PreForeclosure_Status', N'Mtg02_PreForeclosure_Status', 1, N'INT', N'9', NULL, N'The pre-foreclosure status of the loan:
+0/blank = none,
+1 = Notice of Default/Lis Pendens,
 2 = Notice of Sale/Final Judgement,
 3 = Release/Rescission', NULL, NULL),
 (317, N'Financing', N'Mtg02_PreFcl_Recording_Date', N'Mtg02_PreFcl_Recording_Date', 8, N'VARCHAR(8)', N'YYYYMMDD', NULL, N'The recording date of the most recent preforeclosure filing', N'2.6', NULL),
@@ -433,10 +433,10 @@ Note:
 me.', N'2.6', NULL),
 (335, N'Financing', N'Mtg03_Interest_Rate_Not_Less_Than', N'Mtg03_Interest_Rate_Not_Less_Than', 8, N'DECIMAL(7, 5)', N'99.99999', NULL, N'The minimum interest rate allowed on the first change date (date when loan switched from a fixed to an adjustable interest rate).', N'2.6', NULL),
 (336, N'Financing', N'Mtg03_Maximum_Interest_Rate', N'Mtg03_Maximum_Interest_Rate', 8, N'DECIMAL(7, 5)', N'99.99999', NULL, N'The maximum interest rate allowed for the loan.', N'2.6', NULL),
-(337, N'Financing', N'Mtg03_Interest_Only_Period', N'Mtg03_Interest_Only_Period', 2, N'VARCHAR(2)', NULL, NULL, N'If available, the actual interest only period (expressed in years) OR 
+(337, N'Financing', N'Mtg03_Interest_Only_Period', N'Mtg03_Interest_Only_Period', 2, N'VARCHAR(2)', NULL, NULL, N'If available, the actual interest only period (expressed in years) OR
 (Y)es = the loan has an interest-only period.', NULL, NULL),
 (338, N'Financing', N'Mtg03_fixed_step_conversion_rate_rider', N'Mtg03_fixed_step_conversion_rate_rider', 1, N'VARCHAR(1)', NULL, N'Fixed/Step (Conversion) Rate Rider', N'Indicates initial state of the interest rate (fixed, variable, etc.) for the concurrent loan, if available.  See "CodeXlate" Tab.', NULL, NULL),
-(339, N'Financing', N'Mtg03_First_Change_Date_Year_Conversion_Rider', N'Mtg03_First_Change_Date', 8, N'VARCHAR(8)', N'YYYYMMDD', NULL, N'The date that the loan converts from a FIXED to ADJUSTABLE interest rate.  
+(339, N'Financing', N'Mtg03_First_Change_Date_Year_Conversion_Rider', N'Mtg03_First_Change_Date', 8, N'VARCHAR(8)', N'YYYYMMDD', NULL, N'The date that the loan converts from a FIXED to ADJUSTABLE interest rate.
 Format: YYYYMMDD', N'2.6; 2.6a', NULL),
 (340, N'Financing', N'Mtg03_First_Change_Date_Month_Day_Conversion_Rider', N'Mtg03_First_Change_Period', 4, N'INT', N'9999', NULL, N'The number of months between loan origination and first change date', N'2.6; 2.6a', NULL),
 (341, N'Financing', N'Mtg03_Prepayment_Rider', N'Mtg03_Prepayment_Rider', 1, N'VARCHAR(1)', NULL, NULL, N'(Y)es = a Prepayment Rate Rider recorded with the trust deed.  Refer to Prepayment Term.', NULL, NULL),
@@ -444,7 +444,7 @@ Format: YYYYMMDD', N'2.6; 2.6a', NULL),
 (343, N'Financing', N'Mtg03_Title_Company_Name', N'Mtg03_Title_Company_Name', 28, N'VARCHAR(28)', NULL, NULL, N'Name of Title Company which issues the certificate of title insurance.  Not coded or abbreviated.
 If more than one Title Company Name is reported on the document, this field will report "Multiple" versus an actual Title Company Name.', NULL, NULL),
 (344, N'Financing', N'Mtg03_Lender_Name', N'Mtg03_Lender_Name', 40, N'VARCHAR(40)', NULL, NULL, N'Lender DBA/AKA Name.  Not preceded with letters "DBA" or "AKA".  If present, Lender Care of Name is preceded by "C/O".  "DBA" takes priority over "C/O" if both are present on the same document.', NULL, NULL),
-(345, N'Financing', N'Mtg03_Lender_Mail_Full_Street_Address', N'Mtg03_Lender_Mail_Full_Street_Address', 60, N'VARCHAR(60)', NULL, NULL, N'Lender Address keyed for Private Party Lenders .  
+(345, N'Financing', N'Mtg03_Lender_Mail_Full_Street_Address', N'Mtg03_Lender_Mail_Full_Street_Address', 60, N'VARCHAR(60)', NULL, NULL, N'Lender Address keyed for Private Party Lenders .
 Note:  Lender Zip keyed for all Lenders.', NULL, NULL),
 (346, N'Financing', N'Mtg03_Lender_Mail_Unit', N'Mtg03_Lender_Mail_Unit', 11, N'VARCHAR(11)', NULL, NULL, NULL, NULL, NULL),
 (347, N'Financing', N'Mtg03_Lender_Mail_City', N'Mtg03_Lender_Mail_City', 30, N'VARCHAR(30)', NULL, NULL, NULL, NULL, NULL),
@@ -469,9 +469,9 @@ Value will appear in this field OR corresponding Loan Term - Months field or bot
 (365, N'Financing', N'Mtg03_Assigned_Lender_Name', N'Mtg03_Assigned_Lender_Name', 250, N'VARCHAR(250)', NULL, NULL, N'The current lender the loan has been assigned to via document recording', N'2.6', NULL),
 (366, N'Financing', N'Mtg03_Assignment_Date', N'Mtg03_Assignment_Date', 8, N'VARCHAR(8)', N'YYYYMMDD', NULL, N'The date that the current lender took assignment of the loan', NULL, NULL),
 (367, N'Financing', N'Mtg03_Number_of_Assignments', N'Mtg03_Number_of_Assignments', 3, N'INT', N'999', NULL, N'The total number of times the loan has been assigned', N'2.6', NULL),
-(368, N'Financing', N'Mtg03_PreForeclosure_Status', N'Mtg03_PreForeclosure_Status', 1, N'INT', N'9', NULL, N'The pre-foreclosure status of the loan: 
-0/blank = none, 
-1 = Notice of Default/Lis Pendens, 
+(368, N'Financing', N'Mtg03_PreForeclosure_Status', N'Mtg03_PreForeclosure_Status', 1, N'INT', N'9', NULL, N'The pre-foreclosure status of the loan:
+0/blank = none,
+1 = Notice of Default/Lis Pendens,
 2 = Notice of Sale/Final Judgement,
 3 = Release/Rescission', NULL, NULL),
 (369, N'Financing', N'Mtg03_PreFcl_Recording_Date', N'Mtg03_PreFcl_Recording_Date', 8, N'VARCHAR(8)', N'YYYYMMDD', NULL, N'The recording date of the most recent preforeclosure filing', N'2.6', NULL),
@@ -500,10 +500,10 @@ Note:
 me.', N'2.6', NULL),
 (387, N'Financing', N'Mtg04_Interest_Rate_Not_Less_Than', N'Mtg04_Interest_Rate_Not_Less_Than', 8, N'DECIMAL(7, 5)', N'99.99999', NULL, N'The minimum interest rate allowed on the first change date (date when loan switched from a fixed to an adjustable interest rate).', N'2.6', NULL),
 (388, N'Financing', N'Mtg04_Maximum_Interest_Rate', N'Mtg04_Maximum_Interest_Rate', 8, N'DECIMAL(7, 5)', N'99.99999', NULL, N'The maximum interest rate allowed for the loan.', N'2.6', NULL),
-(389, N'Financing', N'Mtg04_Interest_Only_Period', N'Mtg04_Interest_Only_Period', 2, N'VARCHAR(2)', NULL, NULL, N'If available, the actual interest only period (expressed in years) OR 
+(389, N'Financing', N'Mtg04_Interest_Only_Period', N'Mtg04_Interest_Only_Period', 2, N'VARCHAR(2)', NULL, NULL, N'If available, the actual interest only period (expressed in years) OR
 (Y)es = the loan has an interest-only period.', NULL, NULL),
 (390, N'Financing', N'Mtg04_fixed_step_conversion_rate_rider', N'Mtg04_fixed_step_conversion_rate_rider', 1, N'VARCHAR(1)', NULL, N'Fixed/Step (Conversion) Rate Rider', N'Indicates initial state of the interest rate (fixed, variable, etc.) for the concurrent loan, if available.  See "CodeXlate" Tab.', NULL, NULL),
-(391, N'Financing', N'Mtg04_First_Change_Date_Year_Conversion_Rider', N'Mtg04_First_Change_Date', 8, N'VARCHAR(8)', N'YYYYMMDD', NULL, N'The date that the loan converts from a FIXED to ADJUSTABLE interest rate.  
+(391, N'Financing', N'Mtg04_First_Change_Date_Year_Conversion_Rider', N'Mtg04_First_Change_Date', 8, N'VARCHAR(8)', N'YYYYMMDD', NULL, N'The date that the loan converts from a FIXED to ADJUSTABLE interest rate.
 Format: YYYYMMDD', N'2.6; 2.6a', NULL),
 (392, N'Financing', N'Mtg04_First_Change_Date_Month_Day_Conversion_Rider', N'Mtg04_First_Change_Period', 4, N'INT', N'9999', NULL, N'The number of months between loan origination and first change date', N'2.6; 2.6a', NULL),
 (393, N'Financing', N'Mtg04_Prepayment_Rider', N'Mtg04_Prepayment_Rider', 1, N'VARCHAR(1)', NULL, NULL, N'(Y)es = a Prepayment Rate Rider recorded with the trust deed.  Refer to Prepayment Term.', NULL, NULL),
@@ -511,7 +511,7 @@ Format: YYYYMMDD', N'2.6; 2.6a', NULL),
 (395, N'Financing', N'Mtg04_Title_Company_Name', N'Mtg04_Title_Company_Name', 28, N'VARCHAR(28)', NULL, NULL, N'Name of Title Company which issues the certificate of title insurance.  Not coded or abbreviated.
 If more than one Title Company Name is reported on the document, this field will report "Multiple" versus an actual Title Company Name.', NULL, NULL),
 (396, N'Financing', N'Mtg04_Lender_Name', N'Mtg04_Lender_Name', 40, N'VARCHAR(40)', NULL, NULL, N'Lender DBA/AKA Name.  Not preceded with letters "DBA" or "AKA".  If present, Lender Care of Name is preceded by "C/O".  "DBA" takes priority over "C/O" if both are present on the same document.', NULL, NULL),
-(397, N'Financing', N'Mtg04_Lender_Mail_Full_Street_Address', N'Mtg04_Lender_Mail_Full_Street_Address', 60, N'VARCHAR(60)', NULL, NULL, N'Lender Address keyed for Private Party Lenders .  
+(397, N'Financing', N'Mtg04_Lender_Mail_Full_Street_Address', N'Mtg04_Lender_Mail_Full_Street_Address', 60, N'VARCHAR(60)', NULL, NULL, N'Lender Address keyed for Private Party Lenders .
 Note:  Lender Zip keyed for all Lenders.', NULL, NULL),
 (398, N'Financing', N'Mtg04_Lender_Mail_Unit', N'Mtg04_Lender_Mail_Unit', 11, N'VARCHAR(11)', NULL, NULL, NULL, NULL, NULL),
 (399, N'Financing', N'Mtg04_Lender_Mail_City', N'Mtg04_Lender_Mail_City', 30, N'VARCHAR(30)', NULL, NULL, NULL, NULL, NULL),
@@ -536,9 +536,9 @@ Value will appear in this field OR corresponding Loan Term - Months field or bot
 (417, N'Financing', N'Mtg04_Assigned_Lender_Name', N'Mtg04_Assigned_Lender_Name', 250, N'VARCHAR(250)', NULL, NULL, N'The current lender the loan has been assigned to via document recording', N'2.6', NULL),
 (418, N'Financing', N'Mtg04_Assignment_Date', N'Mtg04_Assignment_Date', 8, N'VARCHAR(8)', N'YYYYMMDD', NULL, N'The date that the current lender took assignment of the loan', NULL, NULL),
 (419, N'Financing', N'Mtg04_Number_of_Assignments', N'Mtg04_Number_of_Assignments', 3, N'INT', N'999', NULL, N'The total number of times the loan has been assigned', N'2.6', NULL),
-(420, N'Financing', N'Mtg04_PreForeclosure_Status', N'Mtg04_PreForeclosure_Status', 1, N'INT', N'9', NULL, N'The pre-foreclosure status of the loan: 
-0/blank = none, 
-1 = Notice of Default/Lis Pendens, 
+(420, N'Financing', N'Mtg04_PreForeclosure_Status', N'Mtg04_PreForeclosure_Status', 1, N'INT', N'9', NULL, N'The pre-foreclosure status of the loan:
+0/blank = none,
+1 = Notice of Default/Lis Pendens,
 2 = Notice of Sale/Final Judgement,
 3 = Release/Rescission', NULL, NULL),
 (421, N'Financing', N'Mtg04_PreFcl_Recording_Date', N'Mtg04_PreFcl_Recording_Date', 8, N'VARCHAR(8)', N'YYYYMMDD', NULL, N'The recording date of the most recent preforeclosure filing', N'2.6', NULL),
@@ -555,9 +555,9 @@ Value will appear in this field OR corresponding Loan Term - Months field or bot
 (432, N'Financing', N'Current_Est_Equity_Dollars', N'Current_Est_Equity_Dollars', 11, N'BIGINT', N'-9999999999', NULL, N'Calculated total equity dollars based upon estimated amortized balances for all open liens and QVM Value', N'2.6', NULL),
 (433, N'Financing', N'Current_Est_Equity_Range_Code', N'Current_Est_Equity_Range_Code', 2, N'VARCHAR(2)', NULL, N'Equity Range Code', N'Code that identifies the range category the estimated equity falls into (see Code Xlate - Equity Range Code)', NULL, NULL),
 (434, N'Financing', N'Purchase_LTV', N'Purchase_LTV', 8, N'DECIMAL(7, 4)', N'999.9999', NULL, N'Calculated loan to value ratio based upon purchase money mortgage origination amounts and purchase price - Maximum value: 999.9999', NULL, NULL),
-(435, N'Foreclosure', N'Current_Foreclosure_Status', N'Current_Foreclosure_Status', 1, N'INT', N'9', NULL, N'The pre-foreclosure status of the loan: 
-0/blank = none, 
-1 = Notice of Default/Lis Pendens, 
+(435, N'Foreclosure', N'Current_Foreclosure_Status', N'Current_Foreclosure_Status', 1, N'INT', N'9', NULL, N'The pre-foreclosure status of the loan:
+0/blank = none,
+1 = Notice of Default/Lis Pendens,
 2 = Notice of Sale/Final Judgement,
 3 = Release/Rescission', NULL, NULL),
 (436, N'Foreclosure', N'Foreclosure_Recording_Date', N'Foreclosure_Recording_Date', 8, N'VARCHAR(8)', N'YYYYMMDD', NULL, N'Most recent recording date of the most recent Foreclosure Transaction', NULL, NULL),
